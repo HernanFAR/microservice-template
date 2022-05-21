@@ -1,17 +1,16 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using Authentications.Application.Abstractions;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using SendGrid;
 using SendGrid.Helpers.Mail;
+using SharedKernel.Application.Abstractions;
 using SharedKernel.Infrastructure.MediatR.Interfaces;
 using EmailAddress = SendGrid.Helpers.Mail.EmailAddress;
 
-namespace Authentications.Infrastructure.Abstractions.Email
+namespace SharedKernel.Infrastructure.Application.Email
 {
     public class EmailSender : IEmailSender
     {

@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Authentications.Application.Abstractions
+namespace SharedKernel.Application.Abstractions
 {
     public interface IBackgroundTaskQueue
     {

@@ -1,15 +1,16 @@
 ﻿using Authentications.Application;
 using Authentications.Application.Abstractions;
-using Authentications.Application.Configurations;
 using Authentications.Infrastructure.Abstractions;
-using Authentications.Infrastructure.Abstractions.BackgroundTaskQueue;
-using Authentications.Infrastructure.Abstractions.Email;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
+using SharedKernel.Application.Abstractions;
 using SharedKernel.Domain.Others;
+using SharedKernel.Infrastructure.Application;
+using SharedKernel.Infrastructure.Application.BackgroundTaskQueue;
+using SharedKernel.Infrastructure.Application.Email;
 using SharedKernel.Infrastructure.Others;
 using SharedKernel.WebAPI.Interfaces;
 

@@ -10,6 +10,7 @@ using Authentications.Domain.Entities;
 using Authentications.Domain.ETOs;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using SharedKernel.Application.Abstractions;
 
 namespace Authentications.Application.DomainEvents
 {

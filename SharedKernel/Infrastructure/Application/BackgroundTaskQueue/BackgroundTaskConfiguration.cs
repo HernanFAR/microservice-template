@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore.Query.Internal;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 
-namespace Authentications.Infrastructure.Abstractions.BackgroundTaskQueue
+namespace SharedKernel.Infrastructure.Application.BackgroundTaskQueue
 {
     public class BackgroundTaskConfiguration
     {

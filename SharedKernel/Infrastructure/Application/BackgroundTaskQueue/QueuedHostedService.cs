@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Authentications.Application.Abstractions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using SharedKernel.Application.Abstractions;
 
-namespace Authentications.Infrastructure.Abstractions.BackgroundTaskQueue
+namespace SharedKernel.Infrastructure.Application.BackgroundTaskQueue
 {
     public class QueuedHostedService : BackgroundService
     {

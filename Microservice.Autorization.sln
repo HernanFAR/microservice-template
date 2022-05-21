@@ -4,9 +4,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{FADC3950-F700-4760-9EBE-115627EF2F8E}"
-	ProjectSection(SolutionItems) = preProject
-		Authentications.Application\Abstractions\BackgroundTaskQueue\IBackgroundTaskQueue.cs = Authentications.Application\Abstractions\BackgroundTaskQueue\IBackgroundTaskQueue.cs
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authentications", "Authentications", "{D73D2716-962E-45B1-998F-D60CB0FE957A}"
 EndProject
