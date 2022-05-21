@@ -3,7 +3,7 @@ using System;
 
 namespace SharedKernel.Infrastructure.MediatR
 {
-    public class RequestInformation<TRequestInHandling> : IRequestInformation<TRequestInHandling>
+    public class RequestInformation : IRequestInformation
     {
         public RequestInformation()
         {

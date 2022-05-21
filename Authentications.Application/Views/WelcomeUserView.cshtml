@@ -1,0 +1,19 @@
+﻿@model Authentications.Application.ViewModels.WelcomeUserViewModel
+
+<html>
+<head>
+    <title>Usuario creado en Microservice.Autorization</title>
+</head>
+<body>
+<div style="text-align: center;" >
+    <h5>Se ha creado con éxito usuario en Microservice.Autorization</h5>
+    <p>Datos del usuario: </p>
+    <ul>
+        <li>Nombre: @Model.Username</li>
+        <li>Correo: @Model.Email</li>
+        <li>Número: @Model.PhoneNumber</li>
+        <li>Fecha de registro: @Model.Created</li>
+    </ul>
+</div>
+</body>
+</html>

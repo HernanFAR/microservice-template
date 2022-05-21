@@ -38,7 +38,8 @@ namespace Authentications.WebAPI.Installers
                 .AddUserManager<ApplicationUserManager>()
                 .AddRoleManager<ApplicationRoleManager>()
                 .AddSignInManager<ApplicationSignInManager>()
-                .AddDefaultTokenProviders();
+                .AddDefaultTokenProviders()
+                .AddErrorDescriber<SpanishIdentityErrorDescriber>();
 
         }
     }

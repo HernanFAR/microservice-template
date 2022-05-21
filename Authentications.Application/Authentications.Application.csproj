@@ -15,4 +15,10 @@
     <ProjectReference Include="..\Authentications.EntityFramework\Authentications.EntityFramework.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Views\WelcomeUserView.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

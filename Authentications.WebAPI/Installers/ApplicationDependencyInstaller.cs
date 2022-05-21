@@ -1,4 +1,9 @@
 ﻿using Authentications.Application;
+using Authentications.Application.Abstractions;
+using Authentications.Application.Configurations;
+using Authentications.Infrastructure.Abstractions;
+using Authentications.Infrastructure.Abstractions.BackgroundTaskQueue;
+using Authentications.Infrastructure.Abstractions.Email;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Configuration;
@@ -26,6 +31,23 @@ namespace Authentications.WebAPI.Installers
 
             // MediatR
             serviceCollection.AddMediatR(typeof(Anchor).Assembly);
+
+            // Abstracts
+            serviceCollection.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
+            serviceCollection.AddScoped<IEmailSender, EmailSender>();
+            serviceCollection.AddScoped<IRazorViewRenderService, RazorViewRenderService>();
+            serviceCollection.AddScoped<ITokenGenerator, TokenGenerator>();
+
+            // BackgroundTaskQueue
+            serviceCollection.AddHostedService<QueuedHostedService>();
+            serviceCollection.AddSingleton(provider => new BackgroundTaskConfiguration(provider.GetRequiredService<IConfiguration>()));
+
+            // EmailSender
+            serviceCollection.AddSingleton(provider => new SendGridConfiguration(provider.GetRequiredService<IConfiguration>()));
+
+            // RazorViewRenderService
+            serviceCollection.AddRazorPages();
+
         }
     }
 }

@@ -1,9 +1,12 @@
 ﻿using Authentications.Infrastructure;
 using MediatR;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Authentications.Application.Abstractions;
@@ -14,6 +17,7 @@ using Authentications.EntityFramework;
 using Authentications.EntityFramework.Identity;
 using FluentValidation;
 using FluentValidation.Results;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SharedKernel.Domain.Others;
@@ -57,10 +61,9 @@ namespace Authentications.Application.Features
                         PhoneNumber = phoneNumber
                     };
 
-                    var addUserResult = await _UserManager
-                        .CreateAsync(user, password);
+                    var result = await _UserManager.CreateAsync(user, password);
 
-                    addUserResult.ThrowValidationExceptionIfNotValid();
+                    result.ThrowValidationExceptionIfNotValid();
 
                     return user;
 
@@ -75,6 +78,7 @@ namespace Authentications.Application.Features
         public class Validator : AbstractValidator<Command>
         {
             private readonly ApplicationDbContext _Context;
+            private readonly Regex _PhoneNumberValidator = new("^([+]?[\\s0-9]+)?(\\d{3}|[(]?[0-9]+[)])?([-]?[\\s]?[0-9])+$", RegexOptions.Compiled);
 
             public Validator(ApplicationDbContext context)
             {
@@ -85,11 +89,16 @@ namespace Authentications.Application.Features
 
                 RuleFor(e => e.Email)
                     .NotEmpty().WithMessage("Debes indicar un correo")
-                    .EmailAddress().WithMessage("El correo debe ser valido")
-                    .MustAsync(BeANonExistingEmail).WithMessage("El correo ya existe en el sistema");
+                    .EmailAddress().WithMessage("El correo ingresado ({PropertyValue}) no tiene el formato válido (Formato ab@cd.ef)")
+                    .MustAsync(BeANonExistingEmail).WithMessage("El correo ingresado ({PropertyValue}) ya existe en el sistema");
 
                 RuleFor(e => e.PhoneNumber)
-                    .NotEmpty().WithMessage("Debes indicar tu número de teléfono");
+                    .NotEmpty().WithMessage("Debes indicar tu número de teléfono")
+                    .Matches(_PhoneNumberValidator).WithMessage("El número ingresado ({PropertyValue}) no tiene el formato válido (Formato +569 4321 1234)");
+
+                RuleFor(e => e.ConfirmPassword)
+                    .Equal(e => e.ConfirmPassword)
+                    .WithMessage("La contraseña y la confirmación de contraseña no son iguales");
 
             }
 

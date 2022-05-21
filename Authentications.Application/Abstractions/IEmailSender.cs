@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Authentications.Application.Abstractions
@@ -42,7 +43,7 @@ namespace Authentications.Application.Abstractions
 
     public interface IEmailSender
     {
-        Task SendEmailAsync(EmailMessage message);
+        Task SendEmailAsync(EmailMessage message, CancellationToken cancellationToken);
 
     }
 }

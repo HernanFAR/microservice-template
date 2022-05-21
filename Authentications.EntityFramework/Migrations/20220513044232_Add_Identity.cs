@@ -176,7 +176,7 @@ namespace Authentications.Infrastructure.Migrations
                 schema: "Authentications",
                 table: "ApplicationUser",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Created", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "Updated", "UserName" },
-                values: new object[] { new Guid("00000000-0000-0000-0000-000000000001"), 0, "452241B4-DEE8-4C04-B467-FE18FA73AAB0", new DateTime(2022, 5, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "h.f.alvarez.rubio@gmail.com", true, true, null, "H.F.ALVAREZ.RUBIO@GMAIL.COM", "HERNÁN ÁLVAREZ", "AKGEFunVW6jf5iMPDIVnGMDFxLV3V8zte65VXv0/k0HZx4QaGNcAix9tiJQqP1Qn+A==", "+569 49798355", true, "655ED840-2BE2-4090-A25E-CFC87502D559", false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Hernán Álvarez" });
+                values: new object[] { new Guid("00000000-0000-0000-0000-000000000001"), 0, "452241B4-DEE8-4C04-B467-FE18FA73AAB0", new DateTime(2022, 5, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "h.f.alvarez.rubio@gmail.com", true, true, null!, "H.F.ALVAREZ.RUBIO@GMAIL.COM", "HERNÁN ÁLVAREZ", "AKGEFunVW6jf5iMPDIVnGMDFxLV3V8zte65VXv0/k0HZx4QaGNcAix9tiJQqP1Qn+A==", "+569 49798355", true, "655ED840-2BE2-4090-A25E-CFC87502D559", false, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Hernán Álvarez" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",

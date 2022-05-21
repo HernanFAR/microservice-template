@@ -34,44 +34,26 @@ namespace Authentications.WebAPI.Installers
                         Description = "API encargada de la gestión de usuarios del sistema"
                     });
 
-                })
-                .Configure<ApiBehaviorOptions>(options =>
+                });
+
+            serviceCollection.Configure<ApiBehaviorOptions>(options =>
                 {
                     options.SuppressModelStateInvalidFilter = true;
 
-                })
-                .AddCors(options => options.AddPolicy(DefaultPolicy.Name,
-                policyBuilder => DefaultPolicy.Build(policyBuilder, configuration)))
-                .AddSingleton<IExceptionHandlingMiddleware>(services =>
-                {
-                    var env = services.GetRequiredService<IWebHostEnvironment>();
+                });
 
-                    return new ExceptionHandlingMiddleware(
-                        true,
-                        env.IsDevelopment());
+            serviceCollection.AddSingleton<IExceptionHandlingMiddleware>(services =>
+            {
+                var env = services.GetRequiredService<IWebHostEnvironment>();
 
-                })
-                .AddSingleton<JwtConfiguration>()
-                .AddAuthentication()
-                .AddJwtBearer(options =>
-                {
-                    var provider = serviceCollection.BuildServiceProvider();
-                    var jwtConfiguration = provider.GetRequiredService<JwtConfiguration>();
+                return new ExceptionHandlingMiddleware(
+                    true,
+                    env.IsDevelopment());
 
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidAudience = jwtConfiguration.Audience,
-                        ValidIssuer = jwtConfiguration.Issuer,
-                        RequireExpirationTime = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(
-                            Encoding.UTF8.GetBytes(jwtConfiguration.IssuerSigningKey))
-                    };
+            });
 
-                })
-                .Services
-                .AddAuthorization();
+            serviceCollection.AddCors(options => options.AddPolicy(DefaultPolicy.Name,
+                policyBuilder => DefaultPolicy.Build(policyBuilder, configuration)));
 
         }
 

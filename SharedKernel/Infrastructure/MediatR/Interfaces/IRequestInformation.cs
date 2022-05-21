@@ -2,7 +2,7 @@
 
 namespace SharedKernel.Infrastructure.MediatR.Interfaces
 {
-    public interface IRequestInformation<TRequestInHandling>
+    public interface IRequestInformation
     {
         Guid RequestId { get; }
 

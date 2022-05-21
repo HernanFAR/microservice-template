@@ -14,9 +14,9 @@ namespace SharedKernel.Infrastructure.MediatR.Behaviors
         where TRequest : IRequest<TResponse>
     {
         private readonly ILogger<TRequest> _Logger;
-        private readonly IRequestInformation<TRequest> _RequestInformation;
+        private readonly IRequestInformation _RequestInformation;
 
-        public LoggingBehavior(ILogger<TRequest> logger, IRequestInformation<TRequest> requestInformation)
+        public LoggingBehavior(ILogger<TRequest> logger, IRequestInformation requestInformation)
         {
             _Logger = logger;
             _RequestInformation = requestInformation;

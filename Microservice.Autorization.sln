@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{FADC3950-F700-4760-9EBE-115627EF2F8E}"
+	ProjectSection(SolutionItems) = preProject
+		Authentications.Application\Abstractions\BackgroundTaskQueue\IBackgroundTaskQueue.cs = Authentications.Application\Abstractions\BackgroundTaskQueue\IBackgroundTaskQueue.cs
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authentications", "Authentications", "{D73D2716-962E-45B1-998F-D60CB0FE957A}"
 EndProject
@@ -31,7 +34,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentications.WebAPI", "A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel", "SharedKernel\SharedKernel.csproj", "{A147AC8C-EFEF-419F-A725-FCCD4F7D78B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentications.EntityFramework", "Authentications.EntityFramework\Authentications.EntityFramework.csproj", "{914AA145-B3C9-4F03-9AF3-3344AF1C880A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentications.EntityFramework", "Authentications.EntityFramework\Authentications.EntityFramework.csproj", "{914AA145-B3C9-4F03-9AF3-3344AF1C880A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

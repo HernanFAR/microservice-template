@@ -12,9 +12,10 @@ namespace Authentications.WebAPI.Installers
     {
         public void InstallDependencies(IServiceCollection serviceCollection, IConfiguration configuration)
         {
-            serviceCollection.AddScoped(typeof(IRequestInformation<>), typeof(RequestInformation<>));
+            serviceCollection.AddScoped(typeof(IRequestInformation), typeof(RequestInformation));
             serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
             serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+
         }
     }
 }

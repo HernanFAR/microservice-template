@@ -1,8 +1,10 @@
+using Authentications.WebAPI.CORSPolicies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SharedKernel.WebAPI.Interfaces;
 
 namespace Authentications.WebAPI
 {
@@ -22,24 +24,29 @@ namespace Authentications.WebAPI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
+            IExceptionHandlingMiddleware exceptionHandlingMiddleware)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-                c.SwaggerEndpoint(
-                    "/swagger/v1/swagger.json",
-                    "Web API Autenticación v1"));
+            if (!env.IsProduction())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                    c.SwaggerEndpoint(
+                        "/swagger/v1/swagger.json",
+                        "Web API Autenticación v1"));
+            }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
+            app.UseCors(DefaultPolicy.Name);
             app.UseAuthorization();
+
+            app.UseExceptionHandler(exceptionHandlingMiddleware.Options);
 
             app.UseEndpoints(endpoints =>
             {

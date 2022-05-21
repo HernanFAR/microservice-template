@@ -19,14 +19,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Authentications.Application\Authentications.Application.csproj" />
     <ProjectReference Include="..\Authentications.Domain\Authentications.Domain.csproj" />
     <ProjectReference Include="..\Authentications.Infrastructure\Authentications.Infrastructure.csproj" />
     <ProjectReference Include="..\SharedKernel\SharedKernel.csproj" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>
