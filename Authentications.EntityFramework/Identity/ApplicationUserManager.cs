@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Authentications.Domain.Entities;
+using Authentications.Domain.Entities.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;

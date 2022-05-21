@@ -1,6 +1,7 @@
 ﻿using System;
 using Authentications.Domain.DataAccess;
 using Authentications.Domain.Entities;
+using Authentications.Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -28,6 +29,32 @@ namespace Authentications.EntityFramework.Relations
                 PhoneNumberConfirmed = ApplicationUser.Admin.PhoneNumberConfirmed
             });
 
+            builder.OwnsMany(e => e.LoginInformations, LoginInformationEntityConfiguration);
+
+        }
+
+        private void LoginInformationEntityConfiguration(OwnedNavigationBuilder<ApplicationUser, UserLoginInformation> builder)
+        {
+            builder.ToTable(nameof(UserLoginInformation), DatabaseConstants.Schema);
+
+            builder.HasKey(e => e.Id);
+
+            builder.Property(e => e.Ip)
+                .HasMaxLength(UserLoginInformation.IpMaxLength)
+                .IsRequired();
+
+            builder.Property(e => e.Continent)
+                .HasMaxLength(UserLoginInformation.ContinentMaxLength)
+                .IsRequired();
+
+            builder.Property(e => e.Region)
+                .HasMaxLength(UserLoginInformation.RegionMaxLength)
+                .IsRequired();
+
+            builder.Property(e => e.City)
+                .HasMaxLength(UserLoginInformation.CityMaxLength)
+                .IsRequired();
+            
         }
     }
 }

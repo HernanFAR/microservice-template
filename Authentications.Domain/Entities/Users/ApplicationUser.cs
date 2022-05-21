@@ -1,33 +1,49 @@
-﻿using Authentications.Domain.Validations;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using Authentications.Domain.Validations;
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using SharedKernel.Domain.Interfaces;
 using SharedKernel.Domain.Others;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
-namespace Authentications.Domain.Entities
+namespace Authentications.Domain.Entities.Users
 {
     public sealed class ApplicationUser : IdentityUser<Guid>, IAggregateRoot<Guid>
     {
         private static readonly ApplicationUserValidator _Validator = new();
 
-        internal ApplicationUser(Guid id, DateTime created)
+        private ApplicationUser()
+        {
+            _LoginInformations = new List<UserLoginInformation>();
+        }
+
+        internal ApplicationUser(Guid id, DateTime created) : this()
         {
             Id = id;
             Created = created;
         }
 
-        public ApplicationUser(DateTime created)
+        public ApplicationUser(DateTime created) : this(Guid.NewGuid(), created) { }
+
+        public DateTime Created { get; private set; }
+
+        public DateTime Updated { get; private set; }
+
+        public IReadOnlyList<UserLoginInformation> LoginInformations => _LoginInformations;
+
+        private readonly List<UserLoginInformation> _LoginInformations;
+
+        public UserLoginInformation AddLoginInformation(string ip, string continent, string region, string city, 
+            long latitude, long longitude, DateTime created)
         {
-            Id = Guid.NewGuid();
-            Created = created;
+            var loginInformation = new UserLoginInformation(ip, continent, region, city, latitude, longitude, created);
+
+            _LoginInformations.Add(loginInformation);
+            Updated = created;
+
+            return loginInformation;
         }
-
-        public DateTime Created { get; set; }
-
-        public DateTime Updated { get; set; }
 
         public object[] GetKeys()
         {

@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Authentications.Domain.Entities;
+using Authentications.Domain.Entities.Users;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

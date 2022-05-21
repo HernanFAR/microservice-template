@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Authentications.Application.Abstractions;
 using Authentications.Application.ViewModels;
 using Authentications.Domain.Entities;
+using Authentications.Domain.Entities.Users;
 using Authentications.Domain.ETOs;
 using MediatR;
 using Microsoft.AspNetCore.Identity;

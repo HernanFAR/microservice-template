@@ -1,0 +1,22 @@
+﻿@model Authentications.Application.ViewModels.LoginUserViewModel
+
+<html>
+<head>
+    <title>Usuario creado en Microservice.Autorization</title>
+</head>
+<body>
+<div style="text-align: center;" >
+    <h5>Buen día, @Model.Name</h5>
+    <p>Se ha detectado un inicio de sesión en tu cuenta, con la siguiente información: </p>
+    <ul>
+        <li>Fecha de registro: @Model.LoginDateTime</li>
+        <li>IP: @Model.DoxInfo.Ip</li>
+        <li>Latitud: @Model.DoxInfo.Latitude</li>
+        <li>Longitud: @Model.DoxInfo.Longitude</li>
+        <li>Continente: @Model.DoxInfo.Continent</li>
+        <li>Región: @Model.DoxInfo.Region</li>
+        <li>Ciudad: @Model.DoxInfo.City</li>
+    </ul>
+</div>
+</body>
+</html>

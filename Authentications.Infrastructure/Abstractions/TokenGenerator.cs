@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Authentications.Application.Abstractions;
 using Authentications.Application.Configurations;
 using Authentications.Domain.Entities;
+using Authentications.Domain.Entities.Users;
 using Authentications.EntityFramework.Identity;
 using Microsoft.IdentityModel.Tokens;
 

@@ -13,6 +13,7 @@ using Authentications.Application.Abstractions;
 using Authentications.Application.Configurations;
 using Authentications.Application.Extensions;
 using Authentications.Domain.Entities;
+using Authentications.Domain.Entities.Users;
 using Authentications.EntityFramework;
 using Authentications.EntityFramework.Identity;
 using FluentValidation;
@@ -28,7 +29,7 @@ namespace Authentications.Application.Features
     {
         public record DTO(string Token, DateTimeOffset ExpireDate);
 
-        public record Command(string Name, string Email, string PhoneNumber, string Password, string ConfirmPassword) : IRequest<DTO>;
+        public record Command(string UserName, string Email, string PhoneNumber, string Password, string ConfirmPassword) : IRequest<DTO>;
 
         public class Handler : IRequestHandler<Command, DTO>
         {
@@ -84,8 +85,8 @@ namespace Authentications.Application.Features
             {
                 _Context = context;
 
-                RuleFor(e => e.Name)
-                    .NotEmpty().WithMessage("Debes indicar tu nombre");
+                RuleFor(e => e.UserName)
+                    .NotEmpty().WithMessage("Debes indicar tu nombre de usuario");
 
                 RuleFor(e => e.Email)
                     .NotEmpty().WithMessage("Debes indicar un correo")

@@ -1,5 +1,6 @@
 ﻿using Authentications.Domain.DataAccess;
 using Authentications.Domain.Entities;
+using Authentications.Domain.Entities.Users;
 using Authentications.EntityFramework;
 using Authentications.EntityFramework.Identity;
 using Authentications.Infrastructure;

@@ -16,6 +16,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Views\LoginUserView.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Views\WelcomeUserView.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

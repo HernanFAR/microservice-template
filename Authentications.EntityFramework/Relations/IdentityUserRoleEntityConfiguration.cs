@@ -1,5 +1,6 @@
 ﻿using System;
 using Authentications.Domain.Entities;
+using Authentications.Domain.Entities.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
