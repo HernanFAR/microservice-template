@@ -6,11 +6,11 @@ namespace SharedKernel.Infrastructure.Application.Email
     {
         public SendGridConfiguration(IConfiguration configuration)
         {
-            var section = configuration.GetSection("SendGrid");
+            var section = configuration.GetSection(nameof(SendGridConfiguration));
 
-            APIKey = section["APIKey"];
-            From = section["From"];
-            FromName = section["FromName"] ?? section["From"];
+            APIKey = section[nameof(APIKey)];
+            From = section[nameof(From)];
+            FromName = section[nameof(FromName)] ?? section[nameof(From)];
 
         }
 

@@ -8,9 +8,9 @@ namespace SharedKernel.Infrastructure.Application.BackgroundTaskQueue
 
         public BackgroundTaskConfiguration(IConfiguration configuration)
         {
-            var section = configuration.GetSection("TareasSegundoPlano");
+            var section = configuration.GetSection(nameof(BackgroundTaskConfiguration));
 
-            if (int.TryParse(section["Capacidad"], out var result))
+            if (int.TryParse(section[nameof(Capacity)], out var result))
             {
                 Capacity = result;
             }

@@ -9,11 +9,11 @@ namespace Authentications.Application.Configurations
         {
             var section = configuration.GetSection("JwtConfiguration");
 
-            IssuerSigningKey = section["IssuerSigningKey"];
-            Issuer = section["Issuer"];
-            Audience = section["Audience"];
+            IssuerSigningKey = section[nameof(IssuerSigningKey)];
+            Issuer = section[nameof(Issuer)];
+            Audience = section[nameof(Audience)];
 
-            if (int.TryParse(section["Duration"], out var result))
+            if (int.TryParse(section[nameof(Duration)], out var result))
             {
                 Duration = result;
             }
