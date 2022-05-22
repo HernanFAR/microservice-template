@@ -267,12 +267,10 @@ namespace Authentications.Infrastructure.Migrations
                                 .HasColumnType("uuid");
 
                             b1.Property<string>("City")
-                                .IsRequired()
                                 .HasMaxLength(128)
                                 .HasColumnType("character varying(128)");
 
                             b1.Property<string>("Continent")
-                                .IsRequired()
                                 .HasMaxLength(128)
                                 .HasColumnType("character varying(128)");
 
@@ -284,14 +282,13 @@ namespace Authentications.Infrastructure.Migrations
                                 .HasMaxLength(32)
                                 .HasColumnType("character varying(32)");
 
-                            b1.Property<long>("Latitude")
+                            b1.Property<long?>("Latitude")
                                 .HasColumnType("bigint");
 
-                            b1.Property<long>("Longitude")
+                            b1.Property<long?>("Longitude")
                                 .HasColumnType("bigint");
 
                             b1.Property<string>("Region")
-                                .IsRequired()
                                 .HasMaxLength(128)
                                 .HasColumnType("character varying(128)");
 

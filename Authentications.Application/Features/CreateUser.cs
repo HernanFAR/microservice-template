@@ -3,6 +3,7 @@ using MediatR;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Authentications.Application.Abstractions;
 using Authentications.Application.Configurations;
-using Authentications.Application.Extensions;
 using Authentications.Domain.Entities;
 using Authentications.Domain.Entities.Users;
 using Authentications.EntityFramework;
@@ -27,8 +27,10 @@ namespace Authentications.Application.Features
 {
     public class CreateUser
     {
+        [DisplayName("CreateUserLoginDTO")]
         public record DTO(string Token, DateTimeOffset ExpireDate);
 
+        [DisplayName("CreateUserLoginCommand")]
         public record Command(string UserName, string Email, string PhoneNumber, string Password, string ConfirmPassword) : IRequest<DTO>;
 
         public class Handler : IRequestHandler<Command, DTO>
@@ -40,8 +42,7 @@ namespace Authentications.Application.Features
             private readonly ITimeProvider _TimeProvider;
 
             public Handler(ApplicationUserManager userManager, ApplicationDbContext context, 
-                ITokenGenerator tokenGenerator,
-                ITimeProvider timeProvider)
+                ITokenGenerator tokenGenerator, ITimeProvider timeProvider)
             {
                 _UserManager = userManager;
                 _Context = context;

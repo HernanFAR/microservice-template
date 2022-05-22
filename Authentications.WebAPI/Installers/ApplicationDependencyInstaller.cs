@@ -1,6 +1,8 @@
 ﻿using Authentications.Application;
 using Authentications.Application.Abstractions;
+using Authentications.Application.Configurations;
 using Authentications.Infrastructure.Abstractions;
+using Authentications.Infrastructure.Abstractions.Dox;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Configuration;
@@ -38,16 +40,21 @@ namespace Authentications.WebAPI.Installers
             serviceCollection.AddScoped<IEmailSender, EmailSender>();
             serviceCollection.AddScoped<IRazorViewRenderService, RazorViewRenderService>();
             serviceCollection.AddScoped<ITokenGenerator, TokenGenerator>();
+            serviceCollection.AddScoped<IDoxer, IpStackDoxer>();
 
             // BackgroundTaskQueue
             serviceCollection.AddHostedService<QueuedHostedService>();
             serviceCollection.AddSingleton(provider => new BackgroundTaskConfiguration(provider.GetRequiredService<IConfiguration>()));
 
             // EmailSender
+            serviceCollection.AddSingleton(provider => new EmailConfiguration(provider.GetRequiredService<IConfiguration>()));
             serviceCollection.AddSingleton(provider => new SendGridConfiguration(provider.GetRequiredService<IConfiguration>()));
 
             // RazorViewRenderService
             serviceCollection.AddRazorPages();
+
+            // IpStackDoxer
+            serviceCollection.AddSingleton(provider => new IpStackConfiguration(provider.GetRequiredService<IConfiguration>()));
 
         }
     }

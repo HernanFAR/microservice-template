@@ -34,13 +34,13 @@ namespace Authentications.Domain.Entities.Users
 
         private readonly List<UserLoginInformation> _LoginInformations;
 
-        public UserLoginInformation AddLoginInformation(string ip, string continent, string region, string city, 
-            long latitude, long longitude, DateTime created)
+        public UserLoginInformation AddLoginInformation(string ip, string? continent, string? region, string? city, 
+            long? latitude, long? longitude, DateTimeOffset created)
         {
             var loginInformation = new UserLoginInformation(ip, continent, region, city, latitude, longitude, created);
 
             _LoginInformations.Add(loginInformation);
-            Updated = created;
+            Updated = created.DateTime;
 
             return loginInformation;
         }

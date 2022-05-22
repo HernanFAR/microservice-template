@@ -38,15 +38,18 @@ namespace Authentications.Infrastructure.Abstractions.Dox
 
             var jsonContent = await response.Content.ReadAsStringAsync(cancellationToken);
 
-            dynamic? @object = JsonConvert.DeserializeObject(jsonContent);
+            var @object = JsonConvert.DeserializeObject<IpStackResponse>(jsonContent);
 
-            if (@object == null || @object?.error is not null)
+            if (@object is null or { Error: not null } or { Continent_Name: null }) 
             {
                 return null;
             }
 
-            return new DoxInfo(@object!.ip, @object.continent_name, @object.region_name, @object.city,
-                @object.latitude, @object.longitude);
+            return new DoxInfo(@object.Ip, @object.Continent_Name!, @object.Region_Name, @object.City,
+                @object.Latitude.GetValueOrDefault(), @object.Longitude.GetValueOrDefault());
         }
+
+        private record IpStackResponse(string Ip, string Continent_Name, string Region_Name, string City, long? Latitude, long? Longitude,
+            object Error);
     }
 }

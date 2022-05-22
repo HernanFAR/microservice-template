@@ -10,9 +10,11 @@ using Microsoft.OpenApi.Models;
 using SharedKernel.WebAPI.Interfaces;
 using SharedKernel.WebAPI.MiddleWares;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Authentications.WebAPI.Installers
 {
@@ -21,26 +23,57 @@ namespace Authentications.WebAPI.Installers
         public void InstallDependencies(IServiceCollection serviceCollection, IConfiguration configuration)
         {
             serviceCollection.AddControllers();
-            serviceCollection.AddSwaggerGen(c =>
+            serviceCollection.AddSwaggerGen(setup =>
+            {
+                setup.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    c.EnableAnnotations();
-
-                    c.CustomSchemaIds(GetSchemaId);
-
-                    c.SwaggerDoc("v1", new OpenApiInfo
+                    Title = "API de Usuarios",
+                    Version = "v1",
+                    Description = "API encargada de la gestión de usuarios del sistema",
+                    Contact = new OpenApiContact
                     {
-                        Title = "API de Usuarios",
-                        Version = "v1",
-                        Description = "API encargada de la gestión de usuarios del sistema"
-                    });
-
+                        Name = "Hernán Álvarez",
+                        Email = "h.f.alvarez.r@gmail.com",
+                        Url = new Uri("https://www.linkedin.com/in/hernan-a-rubio/")
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "MIT",
+                    }
                 });
+
+                var jwtSecurityScheme = new OpenApiSecurityScheme
+                {
+                    Scheme = "bearer",
+                    BearerFormat = "JWT",
+                    Name = "JWT Authentication",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Description = "Pon **_solamente_** tu Token JWT Bearer en el input inferior",
+                    Reference = new OpenApiReference
+                    {
+                        Id = JwtBearerDefaults.AuthenticationScheme,
+                        Type = ReferenceType.SecurityScheme
+                    }
+                };
+
+                setup.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
+
+                setup.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    { jwtSecurityScheme, Array.Empty<string>() }
+                });
+
+                setup.EnableAnnotations();
+                setup.CustomSchemaIds(GetSchemaId);
+
+            });
 
             serviceCollection.Configure<ApiBehaviorOptions>(options =>
-                {
-                    options.SuppressModelStateInvalidFilter = true;
+            {
+                options.SuppressModelStateInvalidFilter = true;
 
-                });
+            });
 
             serviceCollection.AddSingleton<IExceptionHandlingMiddleware>(services =>
             {

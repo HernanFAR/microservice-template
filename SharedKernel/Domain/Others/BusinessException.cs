@@ -15,6 +15,11 @@ namespace SharedKernel.Domain.Others
 
         public BusinessException(string message) : base(message) { }
 
+        public static BusinessException UnauthorizedWithMessage(string message)
+        {
+            return new BusinessException(message, HttpStatusCode.Unauthorized);
+        }
+
         public static BusinessException ForbiddenWithMessage(string message)
         {
             return new BusinessException(message, HttpStatusCode.Forbidden);

@@ -14,11 +14,11 @@ namespace Authentications.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Ip = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
-                    Continent = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
-                    Region = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
-                    City = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
-                    Latitude = table.Column<long>(type: "bigint", nullable: false),
-                    Longitude = table.Column<long>(type: "bigint", nullable: false),
+                    Continent = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Region = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    City = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Latitude = table.Column<long>(type: "bigint", nullable: true),
+                    Longitude = table.Column<long>(type: "bigint", nullable: true),
                     Date = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     ApplicationUserId = table.Column<Guid>(type: "uuid", nullable: false)
                 },

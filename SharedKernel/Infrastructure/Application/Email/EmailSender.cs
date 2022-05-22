@@ -27,14 +27,17 @@ namespace SharedKernel.Infrastructure.Application.Email
 
         public async Task SendEmailAsync(EmailMessage message, CancellationToken cancellationToken)
         {
-            var from = new EmailAddress(_Configuration.From);
+            var from = new EmailAddress(message.From.Address, message.From.Name);
             var tos = message.Tos
                 .Select(e => new EmailAddress(e.Address, e.Name))
                 .ToList();
 
-            var sendGridEmail =
-                MailHelper.CreateSingleEmailToMultipleRecipients(from, tos, message.Subject, message.Body,
-                    message.Body);
+            var sendGridEmail = MailHelper.CreateSingleEmailToMultipleRecipients(
+                from, 
+                tos, 
+                message.Subject, 
+                message.Body,
+                message.Body);
 
             var bccs = message.BCCs
                 .Select(e => new EmailAddress(e.Address, e.Name))

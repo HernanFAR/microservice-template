@@ -45,15 +45,15 @@ namespace Authentications.EntityFramework.Relations
 
             builder.Property(e => e.Continent)
                 .HasMaxLength(UserLoginInformation.ContinentMaxLength)
-                .IsRequired();
+                .IsRequired(false);
 
             builder.Property(e => e.Region)
                 .HasMaxLength(UserLoginInformation.RegionMaxLength)
-                .IsRequired();
+                .IsRequired(false);
 
             builder.Property(e => e.City)
                 .HasMaxLength(UserLoginInformation.CityMaxLength)
-                .IsRequired();
+                .IsRequired(false);
             
         }
     }

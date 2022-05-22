@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
-using Microsoft.AspNetCore.Identity;
 using System.Linq;
 
-namespace Authentications.Application.Extensions
+// ReSharper disable once CheckNamespace
+namespace Microsoft.AspNetCore.Identity
 {
     internal static class IdentityResultExtensions
     {

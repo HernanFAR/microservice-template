@@ -25,15 +25,15 @@ namespace SharedKernel.Infrastructure.MediatR.Behaviors
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
             _Logger.LogInformation(
-                "Correlativo: {0} - Hora del registro: {1} | Iniciando manejo de {2}, con los siguientes datos: {3}.",
-                _RequestInformation.RequestId, DateTime.Now, typeof(TRequest).Name, JsonConvert.SerializeObject(request));
+                "Correlativo: {0} - Hora del registro: {1} | Iniciando manejo de {2}, con los siguientes datos: \"{3}\"",
+                _RequestInformation.RequestId, DateTime.Now, typeof(TRequest).FullName, JsonConvert.SerializeObject(request));
 
             try
             {
                 var response = await next();
 
-                _Logger.LogInformation("Correlativo: {0} - Hora del registro: {1} | Terminado manejo de {2}, respuesta recibida correctamente.",
-                    _RequestInformation.RequestId, DateTime.Now, typeof(TRequest).Name);
+                _Logger.LogInformation("Correlativo: {0} - Hora del registro: {1} | Terminado manejo de {2}, respuesta \"{3}\" recibida correctamente.",
+                    _RequestInformation.RequestId, DateTime.Now, typeof(TRequest).FullName, JsonConvert.SerializeObject(response));
 
                 return response;
             }

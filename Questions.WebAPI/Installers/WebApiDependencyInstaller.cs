@@ -28,7 +28,17 @@ namespace Questions.WebAPI.Installers
                 {
                     Title = "API de Preguntas",
                     Version = "v1",
-                    Description = "API encargada de la gestión de preguntas"
+                    Description = "API encargada de la gestión de preguntas",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Hernán Álvarez",
+                        Email = "h.f.alvarez.r@gmail.com",
+                        Url = new Uri("https://www.linkedin.com/in/hernan-a-rubio/")
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "MIT",
+                    }
                 });
             });
 

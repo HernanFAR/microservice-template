@@ -9,23 +9,16 @@ namespace SharedKernel.Infrastructure.Application.Email
             var section = configuration.GetSection(nameof(SendGridConfiguration));
 
             APIKey = section[nameof(APIKey)];
-            From = section[nameof(From)];
-            FromName = section[nameof(FromName)] ?? section[nameof(From)];
 
         }
 
-        public SendGridConfiguration(string apiKey, string from, string? fromName = null)
+        public SendGridConfiguration(string apiKey)
         {
             APIKey = apiKey;
-            From = from;
-            FromName = fromName ?? from;
+
         }
 
         public string APIKey { get; }
-
-        public string From { get; }
-
-        public string FromName { get; }
 
     }
 }

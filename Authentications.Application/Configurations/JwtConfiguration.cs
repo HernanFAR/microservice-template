@@ -7,7 +7,7 @@ namespace Authentications.Application.Configurations
     {
         public JwtConfiguration(IConfiguration configuration)
         {
-            var section = configuration.GetSection("JwtConfiguration");
+            var section = configuration.GetSection(nameof(JwtConfiguration));
 
             IssuerSigningKey = section[nameof(IssuerSigningKey)];
             Issuer = section[nameof(Issuer)];
