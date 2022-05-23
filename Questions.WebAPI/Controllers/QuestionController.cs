@@ -1,4 +1,6 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Questions.Application.Features;
@@ -10,8 +12,6 @@ using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 
 namespace Questions.WebAPI.Controllers
 {
@@ -132,7 +132,7 @@ namespace Questions.WebAPI.Controllers
             {
                 throw BusinessException.NotAcceptableWithMessage("El identificador del ejemplo de la URL y el body no son el mismo");
             }
-            
+
             var response = await _Sender.Send(request, cancellationToken);
 
             return StatusCode(StatusCodes.Status200OK,

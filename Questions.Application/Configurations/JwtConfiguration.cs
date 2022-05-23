@@ -1,5 +1,5 @@
-﻿using System.Text;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
+using System.Text;
 
 namespace Questions.Application.Configurations
 {

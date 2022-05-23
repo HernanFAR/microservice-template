@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace Authentications.EntityFramework.Identity
 {
@@ -11,118 +6,118 @@ namespace Authentications.EntityFramework.Identity
     {
         public override IdentityError DefaultError() => new()
         {
-            Code = nameof(DefaultError), 
+            Code = nameof(DefaultError),
             Description = "Ha ocurrido un error."
         };
 
         public override IdentityError ConcurrencyFailure() => new()
         {
-            Code = nameof(ConcurrencyFailure), 
+            Code = nameof(ConcurrencyFailure),
             Description = "Ha ocurrido un error, el objeto ya ha sido modificado (Optimistic concurrency failure)."
         };
-        
+
         public override IdentityError PasswordMismatch() => new()
         {
-            Code = nameof(PasswordMismatch), 
+            Code = nameof(PasswordMismatch),
             Description = "Contraseña incorrecta."
         };
 
         public override IdentityError InvalidToken() => new()
         {
-            Code = nameof(InvalidToken), 
+            Code = nameof(InvalidToken),
             Description = "Ha ingresado un código Inválido."
         };
 
         public override IdentityError LoginAlreadyAssociated() => new()
         {
-            Code = nameof(LoginAlreadyAssociated), 
+            Code = nameof(LoginAlreadyAssociated),
             Description = "Un usuario con ese nombre ya existe."
         };
 
         public override IdentityError InvalidUserName(string userName) => new()
         {
-            Code = nameof(InvalidUserName), 
+            Code = nameof(InvalidUserName),
             Description = $"El nombre de usuario '{userName}' es inválido. Solo puede contener letras y números."
         };
 
         public override IdentityError InvalidEmail(string email) => new()
         {
-            Code = nameof(InvalidEmail), 
+            Code = nameof(InvalidEmail),
             Description = $"La dirección de email '{email}' es incorrecta."
         };
 
         public override IdentityError DuplicateUserName(string userName) => new()
         {
-            Code = nameof(DuplicateUserName), 
+            Code = nameof(DuplicateUserName),
             Description = $"El usuario '{userName}' ya existe, por favor ingrese un nombre diferente."
         };
 
         public override IdentityError DuplicateEmail(string email) => new()
         {
-            Code = nameof(DuplicateEmail), 
+            Code = nameof(DuplicateEmail),
             Description = $"La dirección de email '{email}' ya se encuentra registrada. Puede recuperar su contraseña para ingresar nuevamente al sistema."
         };
 
         public override IdentityError InvalidRoleName(string role) => new()
         {
-            Code = nameof(InvalidRoleName), 
+            Code = nameof(InvalidRoleName),
             Description = $"El nombre de rol '{role}' es inválido."
         };
 
         public override IdentityError DuplicateRoleName(string role) => new()
         {
-            Code = nameof(DuplicateRoleName), 
+            Code = nameof(DuplicateRoleName),
             Description = $"El nombre de rol '{role}' ya existe."
         };
 
         public override IdentityError UserAlreadyHasPassword() => new()
         {
-            Code = nameof(UserAlreadyHasPassword), 
+            Code = nameof(UserAlreadyHasPassword),
             Description = "El usuario ya tiene contraseña."
         };
 
         public override IdentityError UserLockoutNotEnabled() => new()
         {
-            Code = nameof(UserLockoutNotEnabled), 
+            Code = nameof(UserLockoutNotEnabled),
             Description = "El bloqueo no esta habilitado para este usuario."
         };
         public override IdentityError UserAlreadyInRole(string role) => new()
         {
-            Code = nameof(UserAlreadyInRole), 
+            Code = nameof(UserAlreadyInRole),
             Description = $"El usuario ya es parte del rol '{role}'."
         };
 
         public override IdentityError UserNotInRole(string role) => new()
         {
-            Code = nameof(UserNotInRole), 
+            Code = nameof(UserNotInRole),
             Description = $"El usuario no es parte del rol '{role}'."
         };
 
         public override IdentityError PasswordTooShort(int length) => new()
         {
-            Code = nameof(PasswordTooShort), 
+            Code = nameof(PasswordTooShort),
             Description = $"La contraseña deben tener un largo mínimo de {length} caracteres."
         };
 
         public override IdentityError PasswordRequiresNonAlphanumeric() => new()
         {
-            Code = nameof(PasswordRequiresNonAlphanumeric), 
+            Code = nameof(PasswordRequiresNonAlphanumeric),
             Description = "La contraseña debe contener al menos un carácter alfanumérico."
         };
 
         public override IdentityError PasswordRequiresDigit() => new()
         {
-            Code = nameof(PasswordRequiresDigit), 
+            Code = nameof(PasswordRequiresDigit),
             Description = "La contraseña debe incluir al menos un dígito ('0'-'9')."
         };
         public override IdentityError PasswordRequiresLower() => new()
         {
-            Code = nameof(PasswordRequiresLower), 
+            Code = nameof(PasswordRequiresLower),
             Description = "La contraseña debe incluir al menos una letra minúscula ('a'-'z')."
         };
         public override IdentityError PasswordRequiresUpper() => new()
         {
-            Code = nameof(PasswordRequiresUpper), 
+            Code = nameof(PasswordRequiresUpper),
             Description = "La contraseña debe incluir al menos una letra MAYÚSCULA ('A'-'Z')."
         };
     }

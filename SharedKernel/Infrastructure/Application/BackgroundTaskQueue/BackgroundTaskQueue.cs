@@ -1,8 +1,8 @@
-﻿using System;
+﻿using SharedKernel.Application.Abstractions;
+using System;
 using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
-using SharedKernel.Application.Abstractions;
 
 namespace SharedKernel.Infrastructure.Application.BackgroundTaskQueue
 {

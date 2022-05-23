@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Questions.Domain.DataAccess;
 using Questions.Domain.Entities;
@@ -8,10 +9,8 @@ using SharedKernel.Domain.Others;
 using System;
 using System.ComponentModel;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 
 namespace Questions.Application.Features
 {
@@ -75,7 +74,7 @@ namespace Questions.Application.Features
 
                 }, cancellationToken);
 
-                return new DTO(originalExample.Id, originalExample.Name, 
+                return new DTO(originalExample.Id, originalExample.Name,
                     originalExample.Created, originalExample.Updated.GetValueOrDefault());
             }
 

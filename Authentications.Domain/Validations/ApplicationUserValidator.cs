@@ -1,7 +1,6 @@
-﻿using System.Text.RegularExpressions;
-using Authentications.Domain.Entities;
-using Authentications.Domain.Entities.Users;
+﻿using Authentications.Domain.Entities.Users;
 using FluentValidation;
+using System.Text.RegularExpressions;
 
 namespace Authentications.Domain.Validations
 {

@@ -1,27 +1,17 @@
-﻿using Authentications.Infrastructure;
-using MediatR;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
-using Authentications.Application.Abstractions;
-using Authentications.Application.Configurations;
-using Authentications.Domain.Entities;
+﻿using Authentications.Application.Abstractions;
 using Authentications.Domain.Entities.Users;
 using Authentications.EntityFramework;
 using Authentications.EntityFramework.Identity;
 using FluentValidation;
-using FluentValidation.Results;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using SharedKernel.Domain.Others;
+using System;
+using System.ComponentModel;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Authentications.Application.Features
 {
@@ -41,7 +31,7 @@ namespace Authentications.Application.Features
             private readonly ITokenGenerator _TokenGenerator;
             private readonly ITimeProvider _TimeProvider;
 
-            public Handler(ApplicationUserManager userManager, ApplicationDbContext context, 
+            public Handler(ApplicationUserManager userManager, ApplicationDbContext context,
                 ITokenGenerator tokenGenerator, ITimeProvider timeProvider)
             {
                 _UserManager = userManager;

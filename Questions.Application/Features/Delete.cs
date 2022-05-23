@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Questions.Domain.DataAccess;
 using Questions.EntityFramework;
@@ -8,7 +9,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 
 namespace Questions.Application.Features
 {
@@ -23,7 +23,7 @@ namespace Questions.Application.Features
             private readonly ApplicationDbContext _Context;
             private readonly HttpContext _HttpContext;
 
-            public Handler(IQuestionUnitOfWork questionUnitOfWork, ApplicationDbContext context, 
+            public Handler(IQuestionUnitOfWork questionUnitOfWork, ApplicationDbContext context,
                 IHttpContextAccessor contextAccessor)
             {
                 _QuestionUnitOfWork = questionUnitOfWork;

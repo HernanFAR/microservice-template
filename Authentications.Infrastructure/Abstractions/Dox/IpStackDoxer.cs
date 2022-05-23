@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Authentications.Application.Abstractions;
+using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Json;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Authentications.Application.Abstractions;
-using Microsoft.AspNetCore.Routing.Tree;
-using Newtonsoft.Json;
 
 namespace Authentications.Infrastructure.Abstractions.Dox
 {
@@ -40,7 +33,7 @@ namespace Authentications.Infrastructure.Abstractions.Dox
 
             var @object = JsonConvert.DeserializeObject<IpStackResponse>(jsonContent);
 
-            if (@object is null or { Error: not null } or { Continent_Name: null }) 
+            if (@object is null or { Error: not null } or { Continent_Name: null })
             {
                 return null;
             }

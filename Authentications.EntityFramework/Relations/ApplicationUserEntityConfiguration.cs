@@ -1,9 +1,8 @@
-﻿using System;
-using Authentications.Domain.DataAccess;
-using Authentications.Domain.Entities;
+﻿using Authentications.Domain.DataAccess;
 using Authentications.Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 
 namespace Authentications.EntityFramework.Relations
 {
@@ -54,7 +53,7 @@ namespace Authentications.EntityFramework.Relations
             builder.Property(e => e.City)
                 .HasMaxLength(UserLoginInformation.CityMaxLength)
                 .IsRequired(false);
-            
+
         }
     }
 }

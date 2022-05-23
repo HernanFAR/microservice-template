@@ -1,14 +1,13 @@
-﻿using System;
-using System.Net.Mime;
-using System.Threading;
-using System.Threading.Tasks;
-using Authentications.Application.Features;
+﻿using Authentications.Application.Features;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SharedKernel.Domain.Others;
 using SharedKernel.WebAPI.Responses;
 using Swashbuckle.AspNetCore.Annotations;
+using System.Net.Mime;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Authentications.WebAPI.Controllers
 {

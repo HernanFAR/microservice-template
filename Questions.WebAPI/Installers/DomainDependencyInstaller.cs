@@ -33,7 +33,7 @@ namespace Questions.WebAPI.Installers
                         .AddInterceptors(provider.GetServices<IInterceptor>());
 
                 })
-                .AddHttpContextAccessor(); 
+                .AddHttpContextAccessor();
 
             // Data Access
             serviceCollection.AddScoped<IQuestionUnitOfWork, QuestionUnitOfWork>();

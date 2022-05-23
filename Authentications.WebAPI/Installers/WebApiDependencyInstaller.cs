@@ -1,22 +1,18 @@
-﻿using Authentications.Application.Configurations;
-using Authentications.WebAPI.CORSPolicies;
+﻿using Authentications.WebAPI.CORSPolicies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Questions.WebAPI.Configurations;
+using Questions.WebAPI.Swagger;
 using SharedKernel.WebAPI.Interfaces;
 using SharedKernel.WebAPI.MiddleWares;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Questions.WebAPI.Configurations;
-using Questions.WebAPI.Swagger;
 
 namespace Authentications.WebAPI.Installers
 {

@@ -1,8 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Questions.Domain.Entities;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Questions.EntityFramework
 {

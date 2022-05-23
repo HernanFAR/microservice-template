@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 
 namespace Authentications.Application.Configurations
 {
@@ -12,7 +7,7 @@ namespace Authentications.Application.Configurations
         public EmailConfiguration(IConfiguration configuration)
         {
             var section = configuration.GetSection(nameof(EmailConfiguration));
-            
+
             From = section[nameof(From)];
             FromName = section[nameof(FromName)] ?? section[nameof(From)];
         }

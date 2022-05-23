@@ -10,7 +10,7 @@ namespace Microsoft.AspNetCore.Identity
         public static void ThrowValidationExceptionIfNotValid(this IdentityResult @this)
         {
             if (@this.Succeeded) return;
-            
+
             var errors = @this.Errors
                 .Select(e => new ValidationFailure(e.Code, e.Description))
                 .ToList();

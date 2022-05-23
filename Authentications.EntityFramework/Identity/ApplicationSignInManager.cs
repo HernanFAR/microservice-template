@@ -1,5 +1,4 @@
-﻿using Authentications.Domain.Entities;
-using Authentications.Domain.Entities.Users;
+﻿using Authentications.Domain.Entities.Users;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;

@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Authentications.Application.Abstractions;
-using Authentications.Application.Configurations;
+﻿using Authentications.Application.Configurations;
 using Authentications.Application.ViewModels;
-using Authentications.Domain.Entities;
 using Authentications.Domain.Entities.Users;
 using Authentications.Domain.ETOs;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using SharedKernel.Application.Abstractions;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Authentications.Application.DomainEvents
 {
@@ -46,7 +40,7 @@ namespace Authentications.Application.DomainEvents
                     user.UserName, user.Email, user.PhoneNumber, user.Created);
 
                 var view = await _RazorViewRenderService.RenderViewToStringAsync(
-                    "Views/WelcomeUserView.cshtml", 
+                    "Views/WelcomeUserView.cshtml",
                     viewModel);
 
                 var from = new EmailAddress(_EmailConfiguration.From, _EmailConfiguration.FromName);

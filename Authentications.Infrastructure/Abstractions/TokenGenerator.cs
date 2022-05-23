@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Authentications.Application.Abstractions;
+﻿using Authentications.Application.Abstractions;
 using Authentications.Application.Configurations;
-using Authentications.Domain.Entities;
 using Authentications.Domain.Entities.Users;
 using Authentications.EntityFramework.Identity;
 using Microsoft.IdentityModel.Tokens;
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Authentications.Infrastructure.Abstractions
 {
@@ -39,7 +36,7 @@ namespace Authentications.Infrastructure.Abstractions
                 expires: DateTime.Now.AddDays(_JwtConfiguration.Duration),
                 signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
             );
-            
+
             return (tokenHandler.WriteToken(jwt), jwt.ValidTo);
         }
     }

@@ -1,13 +1,13 @@
-﻿using System.Linq;
-using System.Net;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using SharedKernel.Application.Abstractions;
 using SharedKernel.Infrastructure.MediatR.Interfaces;
+using System.Linq;
+using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
 using EmailAddress = SendGrid.Helpers.Mail.EmailAddress;
 
 namespace SharedKernel.Infrastructure.Application.Email
@@ -33,16 +33,16 @@ namespace SharedKernel.Infrastructure.Application.Email
                 .ToList();
 
             var sendGridEmail = MailHelper.CreateSingleEmailToMultipleRecipients(
-                from, 
-                tos, 
-                message.Subject, 
+                from,
+                tos,
+                message.Subject,
                 message.Body,
                 message.Body);
 
             var bccs = message.BCCs
                 .Select(e => new EmailAddress(e.Address, e.Name))
                 .ToList();
-            
+
             sendGridEmail.AddBccs(bccs);
 
             var ccs = message.CCs

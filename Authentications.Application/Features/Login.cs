@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Authentications.Application.Abstractions;
-using Authentications.Application.Configurations;
+﻿using Authentications.Application.Abstractions;
 using Authentications.EntityFramework;
 using Authentications.EntityFramework.Identity;
 using FluentValidation;
@@ -14,6 +6,10 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using SharedKernel.Application.Abstractions;
 using SharedKernel.Domain.Others;
+using System;
+using System.ComponentModel;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Authentications.Application.Features
 {

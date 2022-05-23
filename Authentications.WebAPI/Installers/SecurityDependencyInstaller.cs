@@ -1,5 +1,4 @@
-﻿using System.Text;
-using Authentications.Application.Configurations;
+﻿using Authentications.Application.Configurations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;

@@ -3,7 +3,6 @@ using Authentications.Domain.Entities;
 using Authentications.Domain.Entities.Users;
 using Authentications.EntityFramework;
 using Authentications.EntityFramework.Identity;
-using Authentications.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

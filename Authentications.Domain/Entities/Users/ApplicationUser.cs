@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using Authentications.Domain.Validations;
+﻿using Authentications.Domain.Validations;
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using SharedKernel.Domain.Interfaces;
 using SharedKernel.Domain.Others;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Authentications.Domain.Entities.Users
 {
@@ -34,7 +34,7 @@ namespace Authentications.Domain.Entities.Users
 
         private readonly List<UserLoginInformation> _LoginInformations;
 
-        public UserLoginInformation AddLoginInformation(string ip, string? continent, string? region, string? city, 
+        public UserLoginInformation AddLoginInformation(string ip, string? continent, string? region, string? city,
             long? latitude, long? longitude, DateTimeOffset created)
         {
             var loginInformation = new UserLoginInformation(ip, continent, region, city, latitude, longitude, created);
