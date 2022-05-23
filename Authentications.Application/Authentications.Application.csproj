@@ -9,19 +9,12 @@
     <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.17" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0" />
+    <PackageReference Include="Razor.Templating.Core" Version="1.6.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Authentications.EntityFramework\Authentications.EntityFramework.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Views\LoginUserView.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Views\WelcomeUserView.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <ProjectReference Include="..\Authentications.RazorViews\Authentications.RazorViews.csproj" />
   </ItemGroup>
 
 </Project>

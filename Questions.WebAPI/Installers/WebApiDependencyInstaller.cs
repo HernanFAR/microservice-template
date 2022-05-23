@@ -5,14 +5,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Questions.WebAPI.Configurations;
 using Questions.WebAPI.CORSPolicies;
-using Questions.WebAPI.Swagger;
 using SharedKernel.WebAPI.Interfaces;
 using SharedKernel.WebAPI.MiddleWares;
 using System;
 using System.ComponentModel;
 using System.Linq;
+using SharedKernel.WebAPI.Configurations;
+using SharedKernel.WebAPI.Swagger;
 
 namespace Questions.WebAPI.Installers
 {

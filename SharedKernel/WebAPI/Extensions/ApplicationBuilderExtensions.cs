@@ -1,4 +1,4 @@
-﻿using Questions.WebAPI.Swagger;
+﻿using SharedKernel.WebAPI.Swagger;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.AspNetCore.Builder

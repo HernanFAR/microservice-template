@@ -6,6 +6,7 @@ using SharedKernel.Domain.Others;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Authentications.Domain.ETOs;
 
 namespace Authentications.Domain.Entities.Users
 {
@@ -24,7 +25,10 @@ namespace Authentications.Domain.Entities.Users
             Created = created;
         }
 
-        public ApplicationUser(DateTime created) : this(Guid.NewGuid(), created) { }
+        public ApplicationUser(DateTime created) : this(Guid.NewGuid(), created)
+        {
+            AddEvent(new EventInformation(new ApplicationUserCreated(Id), true));
+        }
 
         public DateTime Created { get; private set; }
 
@@ -41,6 +45,8 @@ namespace Authentications.Domain.Entities.Users
 
             _LoginInformations.Add(loginInformation);
             Updated = created.DateTime;
+
+            AddEvent(new EventInformation(new ApplicationUserLogged(loginInformation.Id), true));
 
             return loginInformation;
         }

@@ -13,6 +13,8 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace SharedKernel.Infrastructure.Application
 {
@@ -21,16 +23,18 @@ namespace SharedKernel.Infrastructure.Application
         private readonly IRazorViewEngine _ViewEngine;
         private readonly ITempDataProvider _TempDataProvider;
         private readonly IServiceProvider _ServiceProvider;
+        private readonly IWebHostEnvironment _Env;
 
         private static readonly Regex _RegexBetweenTags = new(@">(?! )\s+", RegexOptions.Compiled);
         private static readonly Regex _RegexLineBreaks = new(@"([\n\s])+?(?<= {2,})<", RegexOptions.Compiled);
 
         public RazorViewRenderService(IRazorViewEngine viewEngine, ITempDataProvider tempDataProvider,
-            IServiceProvider serviceProvider)
+            IServiceProvider serviceProvider, IWebHostEnvironment env)
         {
             _ViewEngine = viewEngine;
             _TempDataProvider = tempDataProvider;
             _ServiceProvider = serviceProvider;
+            _Env = env;
         }
 
         public async Task<string> RenderViewToStringAsync<TModel>(string viewNameOrPath, TModel model)
@@ -71,6 +75,16 @@ namespace SharedKernel.Infrastructure.Application
 
         private IView FindView(ActionContext actionContext, string viewName)
         {
+            if (viewName.StartsWith("~/"))
+            {
+                var getViewResultWithNonStandardPath = _ViewEngine.GetView(_Env.ContentRootPath, viewName, false);
+
+                if (getViewResultWithNonStandardPath.Success)
+                {
+                    return getViewResultWithNonStandardPath.View;
+                }
+            }
+
             var getViewResultMainPage = _ViewEngine.GetView(null, viewName, true);
 
             if (getViewResultMainPage.Success)

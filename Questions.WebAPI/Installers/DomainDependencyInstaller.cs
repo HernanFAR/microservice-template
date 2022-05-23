@@ -9,6 +9,7 @@ using Questions.Domain.DataAccess.Repositories;
 using Questions.EntityFramework;
 using Questions.Infrastructure;
 using Questions.Infrastructure.DataAccess;
+using SharedKernel.Infrastructure.EntityFrameworkCore.Interceptors;
 using SharedKernel.WebAPI.Interfaces;
 
 namespace Questions.WebAPI.Installers
@@ -34,6 +35,9 @@ namespace Questions.WebAPI.Installers
 
                 })
                 .AddHttpContextAccessor();
+
+            serviceCollection.AddScoped<IInterceptor, AggregateRootValidatorInterceptor>();
+            serviceCollection.AddScoped<IInterceptor, EventInvokerInterceptor>();
 
             // Data Access
             serviceCollection.AddScoped<IQuestionUnitOfWork, QuestionUnitOfWork>();

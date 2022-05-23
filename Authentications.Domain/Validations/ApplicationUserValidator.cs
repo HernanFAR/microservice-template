@@ -31,22 +31,18 @@ namespace Authentications.Domain.Validations
                         .NotEmpty().WithMessage("Debes incluir el identificador de registro de inicio de sesión");
 
                     validator.RuleFor(e => e.Ip)
-                        .NotEmpty().WithMessage("Debes ingresar la IP de registro de inicio de sesión")
                         .MaximumLength(UserLoginInformation.IpMaxLength)
                             .WithMessage("La IP enviada ({PropertyName}) tiene {MaxLength} caracteres, el máximo es: {TotalLength}");
 
                     validator.RuleFor(e => e.Continent)
-                        .NotEmpty().WithMessage("Debes ingresar el continente de registro de inicio de sesión")
                         .MaximumLength(UserLoginInformation.ContinentMaxLength)
                             .WithMessage("El continente enviado ({PropertyName}) tiene {MaxLength} caracteres, el máximo es: {TotalLength}");
 
                     validator.RuleFor(e => e.Region)
-                        .NotEmpty().WithMessage("Debes ingresar la región de registro de inicio de sesión")
                         .MaximumLength(UserLoginInformation.RegionMaxLength)
                             .WithMessage("La región enviada ({PropertyName}) tiene {MaxLength} caracteres, el máximo es: {TotalLength}");
 
                     validator.RuleFor(e => e.City)
-                        .NotEmpty().WithMessage("Debes ingresar la ciudad de registro de inicio de sesión")
                         .MaximumLength(UserLoginInformation.CityMaxLength)
                             .WithMessage("La ciudad enviada ({PropertyName}) tiene {MaxLength} caracteres, el máximo es: {TotalLength}");
 

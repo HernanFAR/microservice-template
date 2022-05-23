@@ -96,8 +96,10 @@ namespace Authentications.Application.Features
 
             private async Task<bool> BeANonExistingEmail(string email, CancellationToken cancellationToken)
             {
-                return await _Context.Users
+                var exist = await _Context.Users
                     .AnyAsync(e => e.Email == email, cancellationToken);
+
+                return !exist;
             }
         }
     }

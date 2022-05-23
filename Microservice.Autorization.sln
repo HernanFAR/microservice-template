@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel", "SharedKerne
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentications.EntityFramework", "Authentications.EntityFramework\Authentications.EntityFramework.csproj", "{914AA145-B3C9-4F03-9AF3-3344AF1C880A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentications.RazorViews", "Authentications.RazorViews\Authentications.RazorViews.csproj", "{AC35F916-9910-4F4D-BB33-4FD004902E69}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,10 @@ Global
 		{914AA145-B3C9-4F03-9AF3-3344AF1C880A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{914AA145-B3C9-4F03-9AF3-3344AF1C880A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{914AA145-B3C9-4F03-9AF3-3344AF1C880A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC35F916-9910-4F4D-BB33-4FD004902E69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC35F916-9910-4F4D-BB33-4FD004902E69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC35F916-9910-4F4D-BB33-4FD004902E69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC35F916-9910-4F4D-BB33-4FD004902E69}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -102,6 +108,7 @@ Global
 		{A987E84A-35F5-4C3B-BCBC-8B32A5A74210} = {D73D2716-962E-45B1-998F-D60CB0FE957A}
 		{A147AC8C-EFEF-419F-A725-FCCD4F7D78B1} = {FADC3950-F700-4760-9EBE-115627EF2F8E}
 		{914AA145-B3C9-4F03-9AF3-3344AF1C880A} = {D73D2716-962E-45B1-998F-D60CB0FE957A}
+		{AC35F916-9910-4F4D-BB33-4FD004902E69} = {D73D2716-962E-45B1-998F-D60CB0FE957A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4316C5F5-A44C-4A56-8A7A-DE5CA1F0B797}

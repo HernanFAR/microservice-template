@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Authentications.Application.ViewModels
+namespace Authentications.RazorViews.ViewModels
 {
     public record WelcomeUserViewModel(string Username, string Email, string PhoneNumber, DateTime Created);
 }

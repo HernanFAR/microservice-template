@@ -28,18 +28,16 @@ namespace Authentications.Application.Features
             private readonly ITokenGenerator _TokenGenerator;
             private readonly ITimeProvider _TimeProvider;
             private readonly IDoxer _Doxer;
-            private readonly IBackgroundTaskQueue _BackgroundTaskQueue;
             private readonly HttpContext _HttpContext;
 
             public Handler(ApplicationDbContext context, ApplicationSignInManager signInManager, ITokenGenerator tokenGenerator,
-                IHttpContextAccessor accessor, ITimeProvider timeProvider, IDoxer doxer, IBackgroundTaskQueue backgroundTaskQueue)
+                IHttpContextAccessor accessor, ITimeProvider timeProvider, IDoxer doxer)
             {
                 _Context = context;
                 _SignInManager = signInManager;
                 _TokenGenerator = tokenGenerator;
                 _TimeProvider = timeProvider;
                 _Doxer = doxer;
-                _BackgroundTaskQueue = backgroundTaskQueue;
                 _HttpContext = accessor.HttpContext!;
             }
 
@@ -68,29 +66,26 @@ namespace Authentications.Application.Features
                 {
                     throw BusinessException.UnauthorizedWithMessage("La contraseña no es correcta");
                 }
+                
+                var ip = _HttpContext.Connection.RemoteIpAddress;
 
-                await _BackgroundTaskQueue.QueueBackgroundWorkItemAsync(async queueToken =>
+                if (ip is not null)
                 {
-                    var ip = _HttpContext.Connection.RemoteIpAddress;
+                    var ipString = ip.MapToIPv4().ToString();
+                    var doxInfo = await _Doxer.DoxIpAsync(ipString, cancellationToken);
 
-                    if (ip is not null)
+                    await _Context.UseTransaction(async () =>
                     {
-                        var ipString = ip.MapToIPv4().ToString();
-                        var doxInfo = await _Doxer.DoxIpAsync(ipString, queueToken);
+                        var loginInformation = user.AddLoginInformation(ipString,
+                            doxInfo?.Continent, doxInfo?.Region, doxInfo?.City,
+                            doxInfo?.Latitude, doxInfo?.Longitude, _TimeProvider.GetDateTimeOffset());
 
-                        await _Context.UseTransaction(async () =>
-                        {
-                            var loginInformation = user.AddLoginInformation(ipString,
-                                doxInfo?.Continent, doxInfo?.Region, doxInfo?.City,
-                                doxInfo?.Latitude, doxInfo?.Longitude, _TimeProvider.GetDateTimeOffset());
+                        await _Context.AddAsync(loginInformation, cancellationToken);
 
-                            await _Context.AddAsync(loginInformation, queueToken);
+                        await _Context.SaveChangesAsync(cancellationToken);
 
-                            await _Context.SaveChangesAsync(queueToken);
-
-                        }, queueToken);
-                    }
-                });
+                    }, cancellationToken);
+                }
 
                 var (token, validTo) = await _TokenGenerator.GetIdentityTokenAsync(user, cancellationToken);
 

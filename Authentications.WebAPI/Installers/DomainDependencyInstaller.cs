@@ -1,4 +1,5 @@
-﻿using Authentications.Domain.DataAccess;
+﻿using System;
+using Authentications.Domain.DataAccess;
 using Authentications.Domain.Entities;
 using Authentications.Domain.Entities.Users;
 using Authentications.EntityFramework;
@@ -10,6 +11,7 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SharedKernel.Infrastructure.EntityFrameworkCore.Interceptors;
 using SharedKernel.WebAPI.Interfaces;
 
 namespace Authentications.WebAPI.Installers
@@ -18,21 +20,7 @@ namespace Authentications.WebAPI.Installers
     {
         public void InstallDependencies(IServiceCollection serviceCollection, IConfiguration configuration)
         {
-            serviceCollection.AddDbContext<ApplicationDbContext>(
-                    (provider, options) =>
-                    {
-                        var env = provider.GetRequiredService<IWebHostEnvironment>();
-
-                        if (!env.IsProduction())
-                        {
-                            options = options.EnableSensitiveDataLogging();
-                        }
-
-                        options.UseNpgsql(configuration.GetConnectionString("Database"),
-                                options => options.MigrationsHistoryTable("__EFMigrationHistory", DatabaseConstants.Schema))
-                            .AddInterceptors(provider.GetServices<IInterceptor>());
-
-                    })
+            serviceCollection.AddDbContext<ApplicationDbContext>(ContextOptionsBuilder)
                 .AddIdentity<ApplicationUser, ApplicationRole>(IdentityConfiguration.ConfigureIdentity)
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddUserManager<ApplicationUserManager>()
@@ -41,6 +29,26 @@ namespace Authentications.WebAPI.Installers
                 .AddDefaultTokenProviders()
                 .AddErrorDescriber<SpanishIdentityErrorDescriber>();
 
+            serviceCollection.AddScoped<IInterceptor, AggregateRootValidatorInterceptor>();
+            serviceCollection.AddScoped<IInterceptor, EventInvokerInterceptor>();
+
+        }
+
+        private void ContextOptionsBuilder(IServiceProvider provider, DbContextOptionsBuilder options)
+        {
+            var env = provider.GetRequiredService<IWebHostEnvironment>();
+
+            if (!env.IsProduction())
+            {
+                options = options.EnableSensitiveDataLogging();
+            }
+
+            var configuration = provider.GetRequiredService<IConfiguration>();
+
+            options.UseNpgsql(configuration.GetConnectionString("Database"),
+                    options => options.MigrationsHistoryTable("__EFMigrationHistory", DatabaseConstants.Schema))
+                .AddInterceptors(provider.GetServices<IInterceptor>());
+            
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace Questions.WebAPI.Configurations
+namespace SharedKernel.WebAPI.Configurations
 {
     public class SwaggerAuthenticationConfiguration
     {

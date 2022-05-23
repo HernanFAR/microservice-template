@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
-using Questions.WebAPI.Configurations;
-using System;
+﻿using System;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using SharedKernel.WebAPI.Configurations;
 
-namespace Questions.WebAPI.Swagger
+namespace SharedKernel.WebAPI.Swagger
 {
     public class SwaggerAuthenticationMiddleware : IMiddleware
     {

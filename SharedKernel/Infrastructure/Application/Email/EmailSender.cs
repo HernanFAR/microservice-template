@@ -42,14 +42,16 @@ namespace SharedKernel.Infrastructure.Application.Email
             var bccs = message.BCCs
                 .Select(e => new EmailAddress(e.Address, e.Name))
                 .ToList();
-
-            sendGridEmail.AddBccs(bccs);
+            
+            if (bccs.Count != 0)
+                sendGridEmail.AddBccs(bccs);
 
             var ccs = message.CCs
                 .Select(e => new EmailAddress(e.Address, e.Name))
                 .ToList();
 
-            sendGridEmail.AddCcs(ccs);
+            if (ccs.Count != 0)
+                sendGridEmail.AddCcs(ccs);
 
             foreach (var (name, _, content) in message.Attachments)
             {
