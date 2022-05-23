@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Questions.WebAPI.Configurations;
 using Questions.WebAPI.CORSPolicies;
+using Questions.WebAPI.Swagger;
 using SharedKernel.WebAPI.Interfaces;
 using SharedKernel.WebAPI.MiddleWares;
 using System;
@@ -18,13 +21,9 @@ namespace Questions.WebAPI.Installers
         public void InstallDependencies(IServiceCollection serviceCollection, IConfiguration configuration)
         {
             serviceCollection.AddControllers();
-            serviceCollection.AddSwaggerGen(c =>
+            serviceCollection.AddSwaggerGen(setup =>
             {
-                c.EnableAnnotations();
-
-                c.CustomSchemaIds(GetSchemaId);
-
-                c.SwaggerDoc("v1", new OpenApiInfo
+                setup.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "API de Preguntas",
                     Version = "v1",
@@ -40,6 +39,31 @@ namespace Questions.WebAPI.Installers
                         Name = "MIT",
                     }
                 });
+
+                var jwtSecurityScheme = new OpenApiSecurityScheme
+                {
+                    Scheme = "bearer",
+                    BearerFormat = "JWT",
+                    Name = "JWT Authentication",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Description = "Pon **_solamente_** tu Token JWT Bearer en el input inferior",
+                    Reference = new OpenApiReference
+                    {
+                        Id = JwtBearerDefaults.AuthenticationScheme,
+                        Type = ReferenceType.SecurityScheme
+                    }
+                };
+
+                setup.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
+
+                setup.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    { jwtSecurityScheme, Array.Empty<string>() }
+                });
+
+                setup.EnableAnnotations();
+                setup.CustomSchemaIds(GetSchemaId);
             });
 
             serviceCollection.Configure<ApiBehaviorOptions>(
@@ -60,6 +84,9 @@ namespace Questions.WebAPI.Installers
                     true,
                     hostEnvironment.IsDevelopment());
             });
+
+            serviceCollection.AddTransient<SwaggerAuthenticationMiddleware>();
+            serviceCollection.AddSingleton(provider => new SwaggerAuthenticationConfiguration(provider.GetRequiredService<IConfiguration>()));
 
         }
 

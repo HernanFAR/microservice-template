@@ -32,14 +32,7 @@ namespace Authentications.WebAPI
                 app.UseDeveloperExceptionPage();
             }
 
-            if (!env.IsProduction())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI(c =>
-                    c.SwaggerEndpoint(
-                        "/swagger/v1/swagger.json",
-                        "Web API Autenticación v1"));
-            }
+            app.UseSecuredSwagger("Web API Autenticación v1");
 
             app.UseHttpsRedirection();
             app.UseRouting();

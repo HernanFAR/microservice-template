@@ -7,33 +7,37 @@ using System;
 using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace Questions.Application.Features
 {
     public class Create
     {
-        [DisplayName("CreateQuestionCommand")]
-        public record Command(string Name, Guid CreatedById) : IRequest
-        {
-            public Guid CreatedById { get; set; } = CreatedById;
-        };
+        [DisplayName("CreateQuestionDTO")]
+        public record DTO(Guid Id, string Name, DateTime Created);
 
-        public class Handler : IRequestHandler<Command>
+        [DisplayName("CreateQuestionCommand")]
+        public record Command(string Name) : IRequest<DTO>;
+
+        public class Handler : IRequestHandler<Command, DTO>
         {
             private readonly IQuestionUnitOfWork _QuestionUnitOfWork;
             private readonly ITimeProvider _TimeProvider;
+            private readonly HttpContext _Context;
 
-            public Handler(IQuestionUnitOfWork questionUnitOfWork, ITimeProvider timeProvider)
+            public Handler(IQuestionUnitOfWork questionUnitOfWork, ITimeProvider timeProvider,
+                IHttpContextAccessor contextAccessor)
             {
                 _QuestionUnitOfWork = questionUnitOfWork;
                 _TimeProvider = timeProvider;
+                _Context = contextAccessor.HttpContext!;
             }
 
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<DTO> Handle(Command request, CancellationToken cancellationToken)
             {
-                var (name, createdById) = request;
+                var createdById = _Context.GetIdentityId();
 
-                var example = new Question(name, createdById, _TimeProvider.GetDateTime());
+                var example = new Question(request.Name, createdById, _TimeProvider.GetDateTime());
 
                 example.Validate();
 
@@ -45,7 +49,7 @@ namespace Questions.Application.Features
 
                 }, cancellationToken);
 
-                return Unit.Value;
+                return new DTO(example.Id, example.Name, example.Created);
             }
         }
 

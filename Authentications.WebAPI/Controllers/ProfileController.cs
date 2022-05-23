@@ -38,10 +38,9 @@ namespace Authentications.WebAPI.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
 
         [HttpGet]
-        public async Task<ActionResult<ControllerResponse<Profile.DTO>>> Get(
-            [FromServices] IMediator mediator, CancellationToken cancellationToken)
+        public async Task<ActionResult<ControllerResponse<Profile.DTO>>> Get(CancellationToken cancellationToken)
         {
-            var dto = await mediator.Send(new Profile.Query(), cancellationToken);
+            var dto = await _Sender.Send(new Profile.Query(), cancellationToken);
 
             return Ok(ControllerResponse<Profile.DTO>.SuccessWith(dto));
         }

@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Questions.WebAPI.Controllers
 {
@@ -78,6 +80,7 @@ namespace Questions.WebAPI.Controllers
         [Produces(MediaTypeNames.Application.Json)]
         [Consumes(MediaTypeNames.Application.Json)]
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost]
         public async Task<ActionResult<ControllerResponse<object>>> Post(
             [FromBody]
@@ -87,8 +90,6 @@ namespace Questions.WebAPI.Controllers
             {
                 throw BusinessException.UnProcessableEntityWithMessage("No se ha ingresado un body correctamente formateado o es uno invalido");
             }
-
-            request.CreatedById = default;
 
             var response = await _Sender.Send(request, cancellationToken);
 
@@ -114,6 +115,7 @@ namespace Questions.WebAPI.Controllers
         [Produces(MediaTypeNames.Application.Json)]
         [Consumes(MediaTypeNames.Application.Json)]
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPut("{id:guid}")]
         public async Task<ActionResult<ControllerResponse<object>>> Put(
             [FromRoute]
@@ -130,9 +132,7 @@ namespace Questions.WebAPI.Controllers
             {
                 throw BusinessException.NotAcceptableWithMessage("El identificador del ejemplo de la URL y el body no son el mismo");
             }
-
-            request.UpdatedById = default;
-
+            
             var response = await _Sender.Send(request, cancellationToken);
 
             return StatusCode(StatusCodes.Status200OK,
@@ -150,12 +150,13 @@ namespace Questions.WebAPI.Controllers
         [Produces(MediaTypeNames.Application.Json)]
         [Consumes(MediaTypeNames.Application.Json)]
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult<ControllerResponse<object>>> Delete(
             [FromRoute]
             Guid id, CancellationToken cancellationToken)
         {
-            await _Sender.Send(new Delete.Command(id, default), cancellationToken);
+            await _Sender.Send(new Delete.Command(id), cancellationToken);
 
             return StatusCode(StatusCodes.Status200OK,
                 ControllerResponse<object>.EmptySuccess());

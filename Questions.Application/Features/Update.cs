@@ -8,38 +8,51 @@ using SharedKernel.Domain.Others;
 using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace Questions.Application.Features
 {
     public class Update
     {
         [DisplayName("UpdateQuestionCommand")]
-        public record Command(Guid Id, string Name, Guid UpdatedById) : IRequest
-        {
-            public Guid UpdatedById { get; set; } = UpdatedById;
-        }
+        public record DTO(Guid Id, string Name, DateTime Created, DateTime Updated);
 
-        public class Handler : IRequestHandler<Command>
+        [DisplayName("UpdateQuestionCommand")]
+        public record Command(Guid Id, string Name) : IRequest<DTO>;
+
+        public class Handler : IRequestHandler<Command, DTO>
         {
             private readonly IQuestionUnitOfWork _QuestionUnitOfWork;
             private readonly ApplicationDbContext _Context;
             private readonly ITimeProvider _TimeProvider;
+            private readonly HttpContext _HttpContext;
 
             public Handler(IQuestionUnitOfWork questionUnitOfWork, ApplicationDbContext context,
-                ITimeProvider timeProvider)
+                ITimeProvider timeProvider, IHttpContextAccessor contextAccessor)
             {
                 _QuestionUnitOfWork = questionUnitOfWork;
                 _Context = context;
                 _TimeProvider = timeProvider;
+                _HttpContext = contextAccessor.HttpContext!;
             }
 
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<DTO> Handle(Command request, CancellationToken cancellationToken)
             {
-                var (id, name, updatedById) = request;
-                var existExample = await _Context.Questions
-                    .Where(e => e.CreatedById == request.UpdatedById)
+                var (id, name) = request;
+                var updatedById = _HttpContext.GetIdentityId();
+
+                var baseQuery = _Context.Questions
+                    .AsQueryable();
+
+                if (!_HttpContext.HasRole("Admin"))
+                {
+                    baseQuery = baseQuery.Where(e => e.CreatedById == updatedById);
+                }
+
+                var existExample = await baseQuery
                     .AnyAsync(e => e.Id == id, cancellationToken);
 
                 if (!existExample)
@@ -62,7 +75,8 @@ namespace Questions.Application.Features
 
                 }, cancellationToken);
 
-                return Unit.Value;
+                return new DTO(originalExample.Id, originalExample.Name, 
+                    originalExample.Created, originalExample.Updated.GetValueOrDefault());
             }
 
         }

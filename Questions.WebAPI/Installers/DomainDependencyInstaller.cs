@@ -32,7 +32,8 @@ namespace Questions.WebAPI.Installers
                             options => options.MigrationsHistoryTable("__EFMigrationHistory", DatabaseConstants.Schema))
                         .AddInterceptors(provider.GetServices<IInterceptor>());
 
-                });
+                })
+                .AddHttpContextAccessor(); 
 
             // Data Access
             serviceCollection.AddScoped<IQuestionUnitOfWork, QuestionUnitOfWork>();

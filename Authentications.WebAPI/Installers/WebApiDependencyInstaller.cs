@@ -15,6 +15,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Questions.WebAPI.Configurations;
+using Questions.WebAPI.Swagger;
 
 namespace Authentications.WebAPI.Installers
 {
@@ -87,6 +89,9 @@ namespace Authentications.WebAPI.Installers
 
             serviceCollection.AddCors(options => options.AddPolicy(DefaultPolicy.Name,
                 policyBuilder => DefaultPolicy.Build(policyBuilder, configuration)));
+
+            serviceCollection.AddTransient<SwaggerAuthenticationMiddleware>();
+            serviceCollection.AddSingleton(provider => new SwaggerAuthenticationConfiguration(provider.GetRequiredService<IConfiguration>()));
 
         }
 
