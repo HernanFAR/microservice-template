@@ -1,7 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
-using System.Text;
+﻿using System.Text;
+using Microsoft.Extensions.Configuration;
 
-namespace Questions.Application.Configurations
+namespace SharedKernel.Application.Configurations
 {
     public class JwtConfiguration
     {

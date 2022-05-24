@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using SharedKernel.Application.Configurations;
 using SharedKernel.WebAPI.Interfaces;
 
 namespace Authentications.WebAPI.Installers
@@ -30,7 +31,7 @@ namespace Authentications.WebAPI.Installers
 
             serviceCollection.AddAuthorization();
 
-            serviceCollection.AddSingleton<JwtConfiguration>();
+            serviceCollection.AddSingleton(provider => new JwtConfiguration(provider.GetRequiredService<IConfiguration>()));
 
         }
     }

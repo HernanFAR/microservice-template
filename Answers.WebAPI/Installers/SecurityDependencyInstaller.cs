@@ -4,7 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using SharedKernel.Application.Configurations;
 using SharedKernel.WebAPI.Interfaces;
 
-namespace Questions.WebAPI.Installers
+namespace Answers.WebAPI.Installers
 {
     public class SecurityDependencyInstaller : IDependencyInstaller
     {
