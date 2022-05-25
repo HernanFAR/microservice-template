@@ -11,10 +11,10 @@ namespace Questions.Application.Features
 {
     public class ReadOne
     {
-        [DisplayName("ReadOneExampleDTO")]
+        [DisplayName("ReadOneQuestionDTO")]
         public record DTO(Guid Id, string Name);
 
-        [DisplayName("ReadOneExampleQuery")]
+        [DisplayName("ReadOneQuestionQuery")]
         public record Query(Guid Id) : IRequest<DTO?>;
 
         public class Handler : IRequestHandler<Query, DTO?>

@@ -12,10 +12,10 @@ namespace Questions.Application.Features
 {
     public class ReadAll
     {
-        [DisplayName("ReadAllExampleDTO")]
+        [DisplayName("ReadAllQuestionDTO")]
         public record DTO(Guid Id, string Name);
 
-        [DisplayName("ReadAllExampleQuery")]
+        [DisplayName("ReadAllQuestionQuery")]
         public record Query() : IRequest<IReadOnlyList<DTO>>;
 
         public class Handler : IRequestHandler<Query, IReadOnlyList<DTO>>

@@ -19,14 +19,14 @@ namespace Questions.Application.Features
 
         public class Handler : IRequestHandler<Command>
         {
-            private readonly IQuestionUnitOfWork _QuestionUnitOfWork;
+            private readonly IQuestionUnitOfWork _UnitOfWork;
             private readonly ApplicationDbContext _Context;
             private readonly HttpContext _HttpContext;
 
-            public Handler(IQuestionUnitOfWork questionUnitOfWork, ApplicationDbContext context,
+            public Handler(IQuestionUnitOfWork unitOfWork, ApplicationDbContext context,
                 IHttpContextAccessor contextAccessor)
             {
-                _QuestionUnitOfWork = questionUnitOfWork;
+                _UnitOfWork = unitOfWork;
                 _Context = context;
                 _HttpContext = contextAccessor.HttpContext!;
             }
@@ -51,11 +51,11 @@ namespace Questions.Application.Features
                     throw BusinessException.NotFoundWithMessage("No se ha encontrado un ejemplo con ese identificador");
                 }
 
-                await _QuestionUnitOfWork.UseTransactionAsync(async () =>
+                await _UnitOfWork.UseTransactionAsync(async () =>
                 {
-                    await _QuestionUnitOfWork.QuestionRepository.DeleteAsync(request.Id, cancellationToken);
+                    await _UnitOfWork.QuestionRepository.DeleteAsync(request.Id, cancellationToken);
 
-                    await _QuestionUnitOfWork.SaveChangesAsync(cancellationToken);
+                    await _UnitOfWork.SaveChangesAsync(cancellationToken);
 
                 }, cancellationToken);
 

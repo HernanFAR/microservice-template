@@ -16,7 +16,7 @@ namespace Questions.Application.Features
 {
     public class Update
     {
-        [DisplayName("UpdateQuestionCommand")]
+        [DisplayName("UpdateQuestionDTO")]
         public record DTO(Guid Id, string Name, DateTime Created, DateTime Updated);
 
         [DisplayName("UpdateQuestionCommand")]
@@ -24,15 +24,15 @@ namespace Questions.Application.Features
 
         public class Handler : IRequestHandler<Command, DTO>
         {
-            private readonly IQuestionUnitOfWork _QuestionUnitOfWork;
+            private readonly IQuestionUnitOfWork _UnitOfWork;
             private readonly ApplicationDbContext _Context;
             private readonly ITimeProvider _TimeProvider;
             private readonly HttpContext _HttpContext;
 
-            public Handler(IQuestionUnitOfWork questionUnitOfWork, ApplicationDbContext context,
+            public Handler(IQuestionUnitOfWork unitOfWork, ApplicationDbContext context,
                 ITimeProvider timeProvider, IHttpContextAccessor contextAccessor)
             {
-                _QuestionUnitOfWork = questionUnitOfWork;
+                _UnitOfWork = unitOfWork;
                 _Context = context;
                 _TimeProvider = timeProvider;
                 _HttpContext = contextAccessor.HttpContext!;
@@ -56,21 +56,19 @@ namespace Questions.Application.Features
 
                 if (!existExample)
                 {
-                    throw BusinessException.NotFoundWithMessage("No se ha encontrado un ejemplo con ese identificador");
+                    throw BusinessException.NotFoundWithMessage("No se ha encontrado una pregunta con ese identificador");
                 }
 
-                var originalExample = await _QuestionUnitOfWork.QuestionRepository
+                var originalExample = await _UnitOfWork.QuestionRepository
                     .GetAsync(id, cancellationToken);
 
                 originalExample.UpdateState(name, updatedById, _TimeProvider.GetDateTime());
 
-                originalExample.Validate();
-
-                await _QuestionUnitOfWork.UseTransactionAsync(async () =>
+                await _UnitOfWork.UseTransactionAsync(async () =>
                 {
-                    await _QuestionUnitOfWork.QuestionRepository.UpdateAsync(originalExample, cancellationToken);
+                    await _UnitOfWork.QuestionRepository.UpdateAsync(originalExample, cancellationToken);
 
-                    await _QuestionUnitOfWork.SaveChangesAsync(cancellationToken);
+                    await _UnitOfWork.SaveChangesAsync(cancellationToken);
 
                 }, cancellationToken);
 
@@ -86,9 +84,9 @@ namespace Questions.Application.Features
             {
                 RuleFor(e => e.Name)
                     .NotEmpty()
-                        .WithMessage("El nombre de la pregunta no puede ser nulo o estar vacío")
+                        .WithMessage("La pregunta no puede ser nulo o estar vacío")
                     .MaximumLength(Question.NameMaxLength)
-                        .WithMessage("El nombre de la pregunta no puede tener más de {MaxLength} caracteres (Ingresaste {TotalLength}).");
+                        .WithMessage("La pregunta no puede tener más de {MaxLength} caracteres (Ingresaste {TotalLength}).");
             }
         }
     }

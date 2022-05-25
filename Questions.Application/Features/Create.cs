@@ -21,14 +21,14 @@ namespace Questions.Application.Features
 
         public class Handler : IRequestHandler<Command, DTO>
         {
-            private readonly IQuestionUnitOfWork _QuestionUnitOfWork;
+            private readonly IQuestionUnitOfWork _UnitOfWork;
             private readonly ITimeProvider _TimeProvider;
             private readonly HttpContext _Context;
 
-            public Handler(IQuestionUnitOfWork questionUnitOfWork, ITimeProvider timeProvider,
+            public Handler(IQuestionUnitOfWork unitOfWork, ITimeProvider timeProvider,
                 IHttpContextAccessor contextAccessor)
             {
-                _QuestionUnitOfWork = questionUnitOfWork;
+                _UnitOfWork = unitOfWork;
                 _TimeProvider = timeProvider;
                 _Context = contextAccessor.HttpContext!;
             }
@@ -37,19 +37,17 @@ namespace Questions.Application.Features
             {
                 var createdById = _Context.GetIdentityId();
 
-                var example = new Question(request.Name, createdById, _TimeProvider.GetDateTime());
+                var question = new Question(request.Name, createdById, _TimeProvider.GetDateTime());
 
-                example.Validate();
-
-                await _QuestionUnitOfWork.UseTransactionAsync(async () =>
+                await _UnitOfWork.UseTransactionAsync(async () =>
                 {
-                    await _QuestionUnitOfWork.QuestionRepository.CreateAsync(example, cancellationToken);
+                    await _UnitOfWork.QuestionRepository.CreateAsync(question, cancellationToken);
 
-                    await _QuestionUnitOfWork.SaveChangesAsync(cancellationToken);
+                    await _UnitOfWork.SaveChangesAsync(cancellationToken);
 
                 }, cancellationToken);
 
-                return new DTO(example.Id, example.Name, example.Created);
+                return new DTO(question.Id, question.Name, question.Created);
             }
         }
 
@@ -59,9 +57,9 @@ namespace Questions.Application.Features
             {
                 RuleFor(e => e.Name)
                     .NotEmpty()
-                        .WithMessage("El nombre de la pregunta no puede ser nulo o estar vacío")
+                        .WithMessage("La pregunta no puede ser nulo o estar vacío")
                     .MaximumLength(Question.NameMaxLength)
-                        .WithMessage("El nombre de la pregunta no puede tener más de {MaxLength} caracteres (Ingresaste {TotalLength}).");
+                        .WithMessage("La pregunta no puede tener más de {MaxLength} caracteres (Ingresaste {TotalLength}).");
             }
         }
     }
