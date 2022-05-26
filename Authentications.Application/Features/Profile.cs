@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using SharedKernel.Domain.Others;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,14 +14,17 @@ namespace Authentications.Application.Features
 {
     public class Profile
     {
+        [DisplayName("ProfileLoginInformationDTO")]
         public record LoginInformationDTO(string? Ip, string? Continent, string? Region, string? City,
             long? Latitude, long? Longitude, DateTimeOffset Created);
 
+        [DisplayName("ProfileDTO")]
         public record DTO(Guid Id, string UserName, string Email, string PhoneNumber, IReadOnlyList<LoginInformationDTO> Logins);
 
-        public record Query() : IRequest<DTO>;
+        [DisplayName("ProfileQuery")]
+        public record Query() : IRequest<DTO?>;
 
-        public class Handler : IRequestHandler<Query, DTO>
+        public class Handler : IRequestHandler<Query, DTO?>
         {
             private readonly ApplicationDbContext _Context;
             private readonly HttpContext _HttpContext;
@@ -31,14 +35,14 @@ namespace Authentications.Application.Features
                 _HttpContext = contextAccessor.HttpContext!;
             }
 
-            public async Task<DTO> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<DTO?> Handle(Query request, CancellationToken cancellationToken)
             {
                 var userId = _HttpContext.GetIdentityId();
 
                 var existUser = await _Context.Users
                     .AnyAsync(e => e.Id == userId, cancellationToken);
 
-                if (!existUser) throw BusinessException.NotFoundWithMessage($"El identificador {userId} no tiene una cuenta asociada");
+                if (!existUser) return null;
 
                 var userInfo = await _Context.Users
                     .Where(e => e.Id == userId)

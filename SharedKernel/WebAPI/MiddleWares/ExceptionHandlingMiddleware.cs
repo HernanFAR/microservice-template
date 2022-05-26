@@ -73,7 +73,10 @@ namespace SharedKernel.WebAPI.MiddleWares
 
             await context.Response
                 .WriteAsJsonAsync(
-                    ControllerResponse<object>.FailureWith(new ValidationError("Server", "Ha ocurrido un error en el servidor interno."))
+                    new List<ValidationError>
+                    {
+                        new("Server", "Ha ocurrido un error en el servidor interno.")
+                    }
                 );
         }
 
@@ -83,12 +86,9 @@ namespace SharedKernel.WebAPI.MiddleWares
 
             context.Response.StatusCode = StatusCodes.Status422UnprocessableEntity;
 
-            var response = ControllerResponse<object>.FailureWith(
-                validationException.Errors
-                    .Select(e => new ValidationError(e.PropertyName, e.ErrorMessage))
-                    .ToList());
-
-            await context.Response.WriteAsJsonAsync(response);
+            await context.Response.WriteAsJsonAsync(validationException.Errors
+                .Select(e => new ValidationError(e.PropertyName, e.ErrorMessage))
+                .ToList());
         }
 
         protected virtual async Task BusinessExceptionHandler(HttpContext context, Exception ex)
@@ -99,7 +99,10 @@ namespace SharedKernel.WebAPI.MiddleWares
 
             await context.Response
                 .WriteAsJsonAsync(
-                    ControllerResponse<object>.FailureWith(new ValidationError("entity", ex.Message))
+                    new List<ValidationError>
+                    {
+                        new("entity", ex.Message)
+                    }
                 );
         }
     }

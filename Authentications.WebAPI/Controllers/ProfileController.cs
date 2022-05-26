@@ -29,20 +29,21 @@ namespace Authentications.WebAPI.Controllers
 
         [SwaggerResponse(StatusCodes.Status200OK,
             "Se ha obtenido correctamente la información del perfil en sesión",
-            typeof(ControllerResponse<Profile.DTO>))]
+            typeof(Profile.DTO))]
         [SwaggerResponse(StatusCodes.Status404NotFound,
-            "No existe una cuenta en el sistema el identificador del Token ingresado",
-            typeof(ControllerResponse<object>))]
+            "No existe una cuenta en el sistema el identificador del Token ingresado")]
 
         [Produces(MediaTypeNames.Application.Json)]
         [Consumes(MediaTypeNames.Application.Json)]
 
         [HttpGet]
-        public async Task<ActionResult<ControllerResponse<Profile.DTO>>> Get(CancellationToken cancellationToken)
+        public async Task<ActionResult<Profile.DTO>> Get(CancellationToken cancellationToken)
         {
             var dto = await _Sender.Send(new Profile.Query(), cancellationToken);
 
-            return Ok(ControllerResponse<Profile.DTO>.SuccessWith(dto));
+            if (dto is null) return NotFound();
+
+            return Ok(dto);
         }
     }
 }

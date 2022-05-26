@@ -1,4 +1,6 @@
-﻿using Authentications.Application.Features;
+﻿using System;
+using System.Collections.Generic;
+using Authentications.Application.Features;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,18 +27,17 @@ namespace Authentications.WebAPI.Controllers
 
         [SwaggerOperation(Summary = "Crea un usuario, en base a la información enviada en el body y envía un correo de bienvenida.")]
 
-        [SwaggerResponse(StatusCodes.Status201Created,
-            "Se ha creado correctamente el recurso en el sistema.",
-            typeof(ControllerResponse<CreateUser.DTO>))]
+        [SwaggerResponse(StatusCodes.Status201Created, "Se ha creado correctamente el recurso en el sistema.",
+            typeof(CreateUser.DTO))]
         [SwaggerResponse(StatusCodes.Status422UnprocessableEntity,
             "Se han encontrado errores de validación en la información enviada.",
-            typeof(ControllerResponse<object>))]
+            typeof(IReadOnlyList<ValidationError>))]
 
         [Produces(MediaTypeNames.Application.Json)]
         [Consumes(MediaTypeNames.Application.Json)]
 
         [HttpPost("Register")]
-        public async Task<ActionResult<ControllerResponse<CreateUser.DTO>>> Register(
+        public async Task<ActionResult<CreateUser.DTO>> Register(
             [FromBody]
             CreateUser.Command? request, CancellationToken cancellationToken)
         {
@@ -47,32 +48,27 @@ namespace Authentications.WebAPI.Controllers
 
             var response = await _Sender.Send(request, cancellationToken);
 
-            return StatusCode(StatusCodes.Status201Created,
-                ControllerResponse<CreateUser.DTO>.SuccessWith(response));
+            // TODO: Ver como usar método Created
+            return StatusCode(StatusCodes.Status201Created, response);
         }
 
         [SwaggerOperation(Summary = "Inicia sesión con correo y contraseña, retornando un token JWT.")]
+
         [SwaggerResponse(StatusCodes.Status201Created,
             "Se ha creado iniciado correctamente la sesión.",
-            typeof(ControllerResponse<Login.DTO>))]
-        [SwaggerResponse(StatusCodes.Status401Unauthorized,
-            "No se ha ingresado la contraseña correcta.",
-            typeof(ControllerResponse<object>))]
-        [SwaggerResponse(StatusCodes.Status403Forbidden,
-            "No tienes permitido el inicio de sesión.",
-            typeof(ControllerResponse<object>))]
-        [SwaggerResponse(StatusCodes.Status404NotFound,
-            "No se ha encontrado un usuario con ese correo.",
-            typeof(ControllerResponse<object>))]
+            typeof(Login.DTO))]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized, "No se ha ingresado la contraseña correcta.")]
+        [SwaggerResponse(StatusCodes.Status403Forbidden, "No tienes permitido el inicio de sesión.")]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "No se ha encontrado un usuario con ese correo.")]
         [SwaggerResponse(StatusCodes.Status422UnprocessableEntity,
             "Se han encontrado errores de validación en la información enviada.",
-            typeof(ControllerResponse<object>))]
+            typeof(IReadOnlyList<ValidationError>))]
 
         [Produces(MediaTypeNames.Application.Json)]
         [Consumes(MediaTypeNames.Application.Json)]
 
         [HttpPost("Login")]
-        public async Task<ActionResult<ControllerResponse<Login.DTO>>> Login(
+        public async Task<ActionResult<Login.DTO>> Login(
             [FromBody]
             Login.Command? request, CancellationToken cancellationToken)
         {
@@ -83,8 +79,27 @@ namespace Authentications.WebAPI.Controllers
 
             var response = await _Sender.Send(request, cancellationToken);
 
-            return StatusCode(StatusCodes.Status201Created,
-                ControllerResponse<Login.DTO>.SuccessWith(response));
+            return StatusCode(StatusCodes.Status201Created, response);
         }
+
+        [SwaggerOperation(Summary = "Retorna información básica de un usuario, en base a su identificador.")]
+
+        [SwaggerResponse(StatusCodes.Status200OK, "Se ha encontrado un usuario con ese identificador.",
+            typeof(Read.DTO))]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "No se ha encontrado un usuario con ese identificador.")]
+
+        [Produces(MediaTypeNames.Application.Json)]
+
+        [HttpGet("{userId:guid}")]
+        public async Task<ActionResult<Read.DTO>> Read(
+            [FromQuery] Guid userId, CancellationToken cancellationToken)
+        {
+            var response = await _Sender.Send(new Read.Query(userId), cancellationToken);
+
+            if (response is null) return NotFound();
+
+            return Ok(response);
+        }
+
     }
 }
