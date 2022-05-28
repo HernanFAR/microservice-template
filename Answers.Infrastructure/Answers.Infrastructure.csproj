@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Answers.Application\Answers.Application.csproj" />
     <ProjectReference Include="..\Answers.Domain\Answers.Domain.csproj" />
     <ProjectReference Include="..\Answers.EntityFramework\Answers.EntityFramework.csproj" />
   </ItemGroup>

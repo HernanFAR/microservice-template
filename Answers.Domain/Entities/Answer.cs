@@ -1,7 +1,9 @@
 ﻿using System;
+using Answers.Domain.ETOs;
 using Answers.Domain.Validators;
 using FluentValidation;
 using SharedKernel.Domain.Abstracts;
+using SharedKernel.Domain.Others;
 
 namespace Answers.Domain.Entities
 {
@@ -14,16 +16,21 @@ namespace Answers.Domain.Entities
             Name = string.Empty;
         }
 
-        public Answer(string name, Guid createdById, DateTime created) : this()
+        public Answer(string name, Guid questionId, Guid createdById, DateTime created) : this()
         {
             Name = name;
+            QuestionId = questionId;
 
             CreatedById = createdById;
             Created = created;
+
+            AddEvent(new EventInformation(new AnswerCreated(Id), true));
         }
 
         public string Name { get; private set; }
         public const int NameMaxLength = 64;
+
+        public Guid QuestionId { get; private set; }
 
         public Guid CreatedById { get; private set; }
         public DateTime Created { get; private set; }

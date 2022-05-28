@@ -25,9 +25,9 @@ namespace Answers.WebAPI.Installers
             {
                 setup.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "API de Preguntas",
+                    Title = "API de Respuestas",
                     Version = "v1",
-                    Description = "API encargada de la gestión de preguntas",
+                    Description = "API encargada de la gestión de respuestas",
                     Contact = new OpenApiContact
                     {
                         Name = "Hernán Álvarez",

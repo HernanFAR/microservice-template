@@ -1,0 +1,18 @@
+﻿@model Answers.RazorViews.ViewModels.AnswerNotificationViewModel
+
+<html>
+<head>
+    <title>Usuario creado en Microservice.Autorization</title>
+</head>
+<body>
+<div style="text-align: center;" >
+    <h3>Buen día, @Model.QuestionCreatorName</h3>
+    <p>Se ha agregado una respuesta a tu pregunta "@Model.Question", con fecha @Model.QuestionDate</p>
+    <ul>
+        <li>Fecha de registro de respuesta: @Model.AnswerDate</li>
+        <li>Respuesta: @Model.Answer</li>
+        <li>Creada por: : @Model.AnswerCreatorName</li>
+    </ul>
+</div>
+</body>
+</html>
