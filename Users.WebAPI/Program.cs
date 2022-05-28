@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 
-namespace Questions.WebAPI
+namespace Users.WebAPI
 {
     public class Program
     {
@@ -16,5 +16,6 @@ namespace Questions.WebAPI
             Host.CreateDefaultBuilder(args)
                 .UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>());
+
     }
 }

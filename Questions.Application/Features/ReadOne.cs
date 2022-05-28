@@ -12,7 +12,8 @@ namespace Questions.Application.Features
     public class ReadOne
     {
         [DisplayName("ReadOneQuestionDTO")]
-        public record DTO(Guid Id, string Name, DateTime Created, DateTime? Updated);
+        public record DTO(Guid Id, string Name, DateTime Created, Guid CreatedById, 
+            DateTime? Updated, Guid? UpdatedById);
 
         [DisplayName("ReadOneQuestionQuery")]
         public record Query(Guid Id) : IRequest<DTO?>;
@@ -30,7 +31,7 @@ namespace Questions.Application.Features
             {
                 return await _Context.Questions
                     .Where(e => e.Id == request.Id)
-                    .Select(e => new DTO(e.Id, e.Name, e.Created, e.Updated))
+                    .Select(e => new DTO(e.Id, e.Name, e.Created, e.CreatedById, e.Updated, e.UpdatedById))
                     .SingleOrDefaultAsync(cancellationToken);
             }
         }
