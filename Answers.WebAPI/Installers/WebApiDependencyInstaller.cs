@@ -57,9 +57,25 @@ namespace Answers.WebAPI.Installers
 
                 setup.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
 
+                var apiKeyScheme = new OpenApiSecurityScheme()
+                {
+                    Name = configuration["UseAPIKeyConfiguration:APIHeader"],
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Description = "Pon la APIKey en el input de abajo",
+                    Reference = new OpenApiReference
+                    {
+                        Id = SecuritySchemeType.ApiKey.ToString(),
+                        Type = ReferenceType.SecurityScheme
+                    }
+                };
+
+                setup.AddSecurityDefinition(apiKeyScheme.Reference.Id, apiKeyScheme);
+
                 setup.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
-                    { jwtSecurityScheme, Array.Empty<string>() }
+                    { jwtSecurityScheme, Array.Empty<string>() },
+                    { apiKeyScheme, Array.Empty<string>() } 
                 });
 
                 setup.EnableAnnotations();
