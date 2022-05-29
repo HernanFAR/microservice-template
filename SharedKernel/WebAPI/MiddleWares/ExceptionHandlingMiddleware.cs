@@ -94,16 +94,18 @@ namespace SharedKernel.WebAPI.MiddleWares
         protected virtual async Task BusinessExceptionHandler(HttpContext context, Exception ex)
         {
             var businessException = (BusinessException)ex;
-            context.Response.StatusCode = businessException.StatusCode is null ?
-                400 : (int)businessException.StatusCode.GetValueOrDefault();
+            context.Response.StatusCode = (int)businessException.StatusCode;
 
-            await context.Response
-                .WriteAsJsonAsync(
-                    new List<ValidationError>
-                    {
-                        new("entity", ex.Message)
-                    }
-                );
+            if (businessException.Message is not null)
+            {
+                await context.Response
+                    .WriteAsJsonAsync(
+                        new List<ValidationError>
+                        {
+                            new("entity", ex.Message)
+                        }
+                    );
+            }
         }
     }
 }

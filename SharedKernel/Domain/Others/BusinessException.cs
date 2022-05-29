@@ -5,39 +5,34 @@ namespace SharedKernel.Domain.Others
 {
     public class BusinessException : Exception
     {
-        public HttpStatusCode? StatusCode { get; }
+        public HttpStatusCode StatusCode { get; }
 
-        public BusinessException(string message, HttpStatusCode statusCode) : this(message)
+        public new string? Message { get; }
+
+        public BusinessException(HttpStatusCode statusCode, string? message = null)
         {
             StatusCode = statusCode;
+            Message = message;
         }
 
-
-        public BusinessException(string message) : base(message) { }
-
-        public static BusinessException UnauthorizedWithMessage(string message)
+        public static BusinessException Unauthorized(string? message = null)
         {
-            return new BusinessException(message, HttpStatusCode.Unauthorized);
+            return new BusinessException(HttpStatusCode.Unauthorized, message);
         }
 
-        public static BusinessException ForbiddenWithMessage(string message)
+        public static BusinessException Forbidden(string? message = null)
         {
-            return new BusinessException(message, HttpStatusCode.Forbidden);
+            return new BusinessException(HttpStatusCode.Forbidden, message);
         }
 
-        public static BusinessException NotFoundWithMessage(string message)
+        public static BusinessException NotFound(string? message = null)
         {
-            return new BusinessException(message, HttpStatusCode.NotFound);
+            return new BusinessException(HttpStatusCode.NotFound, message);
         }
 
-        public static BusinessException NotAcceptableWithMessage(string message)
+        public static BusinessException UnprocessableEntity(string? message = null)
         {
-            return new BusinessException(message, HttpStatusCode.NotAcceptable);
-        }
-
-        public static BusinessException UnProcessableEntityWithMessage(string message)
-        {
-            return new BusinessException(message, HttpStatusCode.UnprocessableEntity);
+            return new BusinessException(HttpStatusCode.UnprocessableEntity, message);
         }
 
     }

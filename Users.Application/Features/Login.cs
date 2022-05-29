@@ -46,24 +46,24 @@ namespace Users.Application.Features
 
                 if (user is null)
                 {
-                    throw BusinessException.NotFoundWithMessage($"No existe un usuario con correo {request.Email} en el sistema");
+                    throw BusinessException.NotFound($"No existe un usuario con correo {request.Email} en el sistema");
                 }
 
                 var result = await _SignInManager.PasswordSignInAsync(user, request.Password, false, true);
 
                 if (result.IsLockedOut)
                 {
-                    throw BusinessException.ForbiddenWithMessage($"Estas bloqueado por {user.LockoutEnd} más");
+                    throw BusinessException.Forbidden($"Estas bloqueado por {user.LockoutEnd} más");
                 }
 
                 if (result.IsNotAllowed)
                 {
-                    throw BusinessException.ForbiddenWithMessage("No tienes permitido el inicio de sesión");
+                    throw BusinessException.Forbidden("No tienes permitido el inicio de sesión");
                 }
 
                 if (!result.Succeeded)
                 {
-                    throw BusinessException.UnauthorizedWithMessage("La contraseña no es correcta");
+                    throw BusinessException.Unauthorized("La contraseña no es correcta");
                 }
                 
                 var ip = _HttpContext.Connection.RemoteIpAddress;

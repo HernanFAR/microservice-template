@@ -35,8 +35,8 @@ namespace Users.WebAPI.Controllers
         [Produces(MediaTypeNames.Application.Json)]
         [Consumes(MediaTypeNames.Application.Json)]
 
-        [HttpGet]
-        public async Task<ActionResult<Profile.DTO>> Get(CancellationToken cancellationToken)
+        [HttpGet(Name = "GetProfile")]
+        public async Task<ActionResult<Profile.DTO>> Profile(CancellationToken cancellationToken)
         {
             var dto = await _Sender.Send(new Profile.Query(), cancellationToken);
 

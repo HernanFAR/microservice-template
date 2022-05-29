@@ -34,7 +34,7 @@ namespace Questions.WebAPI.Controllers
 
         [Produces(MediaTypeNames.Application.Json)]
 
-        [HttpGet]
+        [HttpGet(Name = "GetAllQuestion")]
         public async Task<ActionResult<IReadOnlyList<ReadAll.DTO>>> Get(CancellationToken cancellationToken)
         {
             var response = await _Sender.Send(new ReadAll.Query(), cancellationToken);
@@ -51,7 +51,7 @@ namespace Questions.WebAPI.Controllers
 
         [Produces(MediaTypeNames.Application.Json)]
 
-        [HttpGet("{id:guid}")]
+        [HttpGet("{id:guid}", Name = "GetQuestion")]
         public async Task<ActionResult<ReadOne.DTO>> Get(
             [FromRoute] Guid id, CancellationToken cancellationToken)
         {
@@ -73,7 +73,7 @@ namespace Questions.WebAPI.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [HttpPost]
+        [HttpPost(Name = "CreateQuestion")]
         public async Task<ActionResult<Create.DTO>> Post(
             [FromBody]
             Create.Command? request, CancellationToken cancellationToken)
@@ -88,7 +88,7 @@ namespace Questions.WebAPI.Controllers
 
             var response = await _Sender.Send(request, cancellationToken);
 
-            return StatusCode(StatusCodes.Status201Created, response);
+            return CreatedAtRoute("GetQuestion", new { id = response.Id }, response);
         }
 
         [SwaggerOperation(Summary = "Actualiza una pregunta, en base a la información enviada en el body.")]
@@ -99,8 +99,7 @@ namespace Questions.WebAPI.Controllers
         [SwaggerResponse(StatusCodes.Status404NotFound,
             "No se ha encontrado un recurso con ese identificador.")]
         [SwaggerResponse(StatusCodes.Status406NotAcceptable,
-            "El identificador del ejemplo de la URL y del body no coinciden.",
-            typeof(IReadOnlyList<ValidationError>))]
+            "El identificador del ejemplo de la URL y del body no coinciden.")]
         [SwaggerResponse(StatusCodes.Status422UnprocessableEntity,
             "Se han encontrado errores de validación en la información enviada en el body.",
             typeof(IReadOnlyList<ValidationError>))]
@@ -109,7 +108,7 @@ namespace Questions.WebAPI.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [HttpPut("{id:guid}")]
+        [HttpPut("{id:guid}", Name = "UpdateQuestion")]
         public async Task<ActionResult<Update.DTO>> Put(
             [FromRoute]
             Guid id,
@@ -126,10 +125,7 @@ namespace Questions.WebAPI.Controllers
 
             if (id != request.Id)
             {
-                return StatusCode(StatusCodes.Status406NotAcceptable, new List<ValidationError>
-                {
-                    new(nameof(request.Id), "El identificador del ejemplo de la URL y el body no son el mismo")
-                });
+                return StatusCode(StatusCodes.Status406NotAcceptable);
             }
 
             var response = await _Sender.Send(request, cancellationToken);
@@ -147,7 +143,7 @@ namespace Questions.WebAPI.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [HttpDelete("{id:guid}")]
+        [HttpDelete("{id:guid}", Name = "DeleteQuestion")]
         public async Task<ActionResult<object>> Delete(
             [FromRoute]
             Guid id, CancellationToken cancellationToken)

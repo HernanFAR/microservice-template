@@ -56,7 +56,7 @@ namespace Questions.Application.Features
 
                 if (!existExample)
                 {
-                    throw BusinessException.NotFoundWithMessage("No se ha encontrado una pregunta con ese identificador");
+                    throw BusinessException.NotFound();
                 }
 
                 var originalExample = await _UnitOfWork.QuestionRepository

@@ -53,18 +53,18 @@ namespace Answers.Application.Features
                     baseQuery = baseQuery.Where(e => e.CreatedById == updatedById);
                 }
 
-                var originalExample = await _UnitOfWork.AnswerRepository
-                    .GetAsync(id, cancellationToken);
-
                 var existExample = await baseQuery
                     .AnyAsync(e => e.Id == id, cancellationToken);
 
-                originalExample.UpdateState(name, updatedById, _TimeProvider.GetDateTime());
-
                 if (!existExample)
                 {
-                    throw BusinessException.NotFoundWithMessage("No se ha encontrado una respuesta con ese identificador");
+                    throw BusinessException.NotFound();
                 }
+
+                var originalExample = await _UnitOfWork.AnswerRepository
+                    .GetAsync(id, cancellationToken);
+
+                originalExample.UpdateState(name, updatedById, _TimeProvider.GetDateTime());
 
                 await _UnitOfWork.UseTransactionAsync(async () =>
                 {

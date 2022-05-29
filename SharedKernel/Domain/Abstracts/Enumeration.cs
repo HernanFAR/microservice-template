@@ -126,7 +126,7 @@ namespace SharedKernel.Domain.Abstracts
             if (TryParse(predicate, out var result)) return result;
 
             var message = $"'{value}' no es un valor valido para {description} en {typeof(TEnumeration)}";
-            throw new BusinessException(message, HttpStatusCode.UnprocessableEntity);
+            throw new BusinessException(HttpStatusCode.UnprocessableEntity, message);
 
         }
 

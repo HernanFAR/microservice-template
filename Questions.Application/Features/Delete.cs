@@ -48,7 +48,7 @@ namespace Questions.Application.Features
 
                 if (!existExample)
                 {
-                    throw BusinessException.NotFoundWithMessage("No se ha encontrado un ejemplo con ese identificador");
+                    throw BusinessException.NotFound();
                 }
 
                 await _UnitOfWork.UseTransactionAsync(async () =>

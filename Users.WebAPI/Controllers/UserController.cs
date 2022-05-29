@@ -36,14 +36,14 @@ namespace Users.WebAPI.Controllers
         [Produces(MediaTypeNames.Application.Json)]
         [Consumes(MediaTypeNames.Application.Json)]
 
-        [HttpPost("Register")]
+        [HttpPost("Register", Name = "RegisterUser")]
         public async Task<ActionResult<CreateUser.DTO>> Register(
             [FromBody]
             CreateUser.Command? request, CancellationToken cancellationToken)
         {
             if (request is null)
             {
-                throw BusinessException.UnProcessableEntityWithMessage("No se ha ingresado un body correctamente formateado o es uno invalido");
+                throw BusinessException.UnprocessableEntity("No se ha ingresado un body correctamente formateado o es uno invalido");
             }
 
             var response = await _Sender.Send(request, cancellationToken);
@@ -67,14 +67,14 @@ namespace Users.WebAPI.Controllers
         [Produces(MediaTypeNames.Application.Json)]
         [Consumes(MediaTypeNames.Application.Json)]
 
-        [HttpPost("Login")]
+        [HttpPost("Login", Name = "LoginUser")]
         public async Task<ActionResult<Login.DTO>> Login(
             [FromBody]
             Login.Command? request, CancellationToken cancellationToken)
         {
             if (request is null)
             {
-                throw BusinessException.UnProcessableEntityWithMessage("No se ha ingresado un body correctamente formateado o es uno invalido");
+                throw BusinessException.UnprocessableEntity("No se ha ingresado un body correctamente formateado o es uno invalido");
             }
 
             var response = await _Sender.Send(request, cancellationToken);
@@ -89,7 +89,7 @@ namespace Users.WebAPI.Controllers
 
         [Produces(MediaTypeNames.Application.Json)]
 
-        [HttpGet("{userId:guid}")]
+        [HttpGet("{userId:guid}", Name = "ReadUser")]
         public async Task<ActionResult<Read.DTO>> Read(
             [FromRoute] Guid userId, CancellationToken cancellationToken)
         {
