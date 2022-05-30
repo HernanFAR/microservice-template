@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SharedKernel.WebAPI.Filters;
 using Swashbuckle.AspNetCore.Annotations;
 using Users.Application.Features;
 
@@ -15,6 +16,7 @@ namespace Users.WebAPI.Controllers
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [SwaggerTag("Contiene funciones relacionadas a la gestión del perfil")]
+    [UseAPIKey]
     public class ProfileController : ControllerBase
     {
         private readonly ISender _Sender;

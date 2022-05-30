@@ -1,10 +1,10 @@
-﻿using MediatR;
+﻿using Answers.Application.Features;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Answers.Application.Features;
-using SharedKernel.Domain.Others;
+using SharedKernel.WebAPI.Filters;
 using SharedKernel.WebAPI.Responses;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
@@ -18,6 +18,7 @@ namespace Answers.WebAPI.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [SwaggerTag("Contiene funciones relacionadas a la gestión de respuestas")]
+    [UseAPIKey]
     public class AnswerController : ControllerBase
     {
         private readonly ISender _Sender;

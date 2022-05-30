@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 using Answers.WebAPI.CORSPolicies;
+using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,7 @@ using SharedKernel.WebAPI.Configurations;
 using SharedKernel.WebAPI.Interfaces;
 using SharedKernel.WebAPI.MiddleWares;
 using SharedKernel.WebAPI.Swagger;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Answers.WebAPI.Installers
 {
@@ -21,8 +23,11 @@ namespace Answers.WebAPI.Installers
         public void InstallDependencies(IServiceCollection serviceCollection, IConfiguration configuration)
         {
             serviceCollection.AddControllers();
+            serviceCollection.AddFluentValidationRulesToSwagger();
+
             serviceCollection.AddSwaggerGen(setup =>
             {
+                setup.OperationFilter<ProcessAuthorizationOperationFilter>();
                 setup.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "API de Respuestas",
@@ -101,8 +106,9 @@ namespace Answers.WebAPI.Installers
                     hostEnvironment.IsDevelopment());
             });
 
-            serviceCollection.AddTransient<SwaggerAuthenticationMiddleware>();
-            serviceCollection.AddSingleton(provider => new SwaggerAuthenticationConfiguration(provider.GetRequiredService<IConfiguration>()));
+            serviceCollection.AddScoped<SwaggerAuthenticationMiddleware>();
+            serviceCollection.AddSingleton(provider => new UseAPIKeyConfiguration(provider.GetRequiredService<IConfiguration>()));
+            serviceCollection.AddScoped(provider => new SwaggerAuthenticationConfiguration(provider.GetRequiredService<IConfiguration>()));
 
         }
 

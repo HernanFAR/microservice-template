@@ -12,12 +12,14 @@ using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
+using SharedKernel.WebAPI.Filters;
 
 namespace Questions.WebAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     [SwaggerTag("Contiene funciones relacionadas a la gestión de preguntas")]
+    [UseAPIKey]
     public class QuestionController : ControllerBase
     {
         private readonly ISender _Sender;

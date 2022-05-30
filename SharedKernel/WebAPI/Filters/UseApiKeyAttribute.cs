@@ -12,7 +12,7 @@ using SharedKernel.WebAPI.Configurations;
 namespace SharedKernel.WebAPI.Filters
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-    public class UseApiKeyAttribute : Attribute, IAsyncActionFilter
+    public class UseAPIKeyAttribute : Attribute, IAsyncActionFilter
     {
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
@@ -25,7 +25,7 @@ namespace SharedKernel.WebAPI.Filters
                 return;
             }
 
-            if (!configuration.APIHeader.Equals(potentialApiKey))
+            if (!configuration.APIKey.Equals(potentialApiKey))
             {
                 context.Result = new UnauthorizedResult();
                 return;

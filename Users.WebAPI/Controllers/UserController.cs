@@ -7,6 +7,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SharedKernel.Domain.Others;
+using SharedKernel.WebAPI.Filters;
 using SharedKernel.WebAPI.Responses;
 using Swashbuckle.AspNetCore.Annotations;
 using Users.Application.Features;
@@ -16,6 +17,7 @@ namespace Users.WebAPI.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [SwaggerTag("Contiene funciones relacionadas a la gestión de preguntas")]
+    [UseAPIKey]
     public class UserController : ControllerBase
     {
         private readonly ISender _Sender;
@@ -47,8 +49,7 @@ namespace Users.WebAPI.Controllers
             }
 
             var response = await _Sender.Send(request, cancellationToken);
-
-            // TODO: Ver como usar método Created
+            
             return StatusCode(StatusCodes.Status201Created, response);
         }
 

@@ -23,6 +23,7 @@ namespace Users.WebAPI.Installers
             serviceCollection.AddControllers();
             serviceCollection.AddSwaggerGen(setup =>
             {
+                setup.OperationFilter<ProcessAuthorizationOperationFilter>();
                 setup.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "API de Usuarios",
@@ -57,9 +58,25 @@ namespace Users.WebAPI.Installers
 
                 setup.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
 
+                var apiKeyScheme = new OpenApiSecurityScheme()
+                {
+                    Name = configuration["UseAPIKeyConfiguration:APIHeader"],
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Description = "Pon la APIKey en el input de abajo",
+                    Reference = new OpenApiReference
+                    {
+                        Id = SecuritySchemeType.ApiKey.ToString(),
+                        Type = ReferenceType.SecurityScheme
+                    }
+                };
+
+                setup.AddSecurityDefinition(apiKeyScheme.Reference.Id, apiKeyScheme);
+
                 setup.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
-                    { jwtSecurityScheme, Array.Empty<string>() }
+                    { jwtSecurityScheme, Array.Empty<string>() },
+                    { apiKeyScheme, Array.Empty<string>() }
                 });
 
                 setup.EnableAnnotations();
@@ -86,7 +103,8 @@ namespace Users.WebAPI.Installers
             serviceCollection.AddCors(options => options.AddPolicy(DefaultPolicy.Name,
                 policyBuilder => DefaultPolicy.Build(policyBuilder, configuration)));
 
-            serviceCollection.AddTransient<SwaggerAuthenticationMiddleware>();
+            serviceCollection.AddScoped<SwaggerAuthenticationMiddleware>();
+            serviceCollection.AddSingleton(provider => new UseAPIKeyConfiguration(provider.GetRequiredService<IConfiguration>()));
             serviceCollection.AddSingleton(provider => new SwaggerAuthenticationConfiguration(provider.GetRequiredService<IConfiguration>()));
 
         }

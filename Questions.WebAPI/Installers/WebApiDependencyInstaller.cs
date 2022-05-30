@@ -23,6 +23,7 @@ namespace Questions.WebAPI.Installers
             serviceCollection.AddControllers();
             serviceCollection.AddSwaggerGen(setup =>
             {
+                setup.OperationFilter<ProcessAuthorizationOperationFilter>();
                 setup.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "API de Preguntas",
@@ -57,9 +58,25 @@ namespace Questions.WebAPI.Installers
 
                 setup.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
 
+                var apiKeyScheme = new OpenApiSecurityScheme()
+                {
+                    Name = configuration["UseAPIKeyConfiguration:APIHeader"],
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Description = "Pon la APIKey en el input de abajo",
+                    Reference = new OpenApiReference
+                    {
+                        Id = SecuritySchemeType.ApiKey.ToString(),
+                        Type = ReferenceType.SecurityScheme
+                    }
+                };
+
+                setup.AddSecurityDefinition(apiKeyScheme.Reference.Id, apiKeyScheme);
+
                 setup.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
-                    { jwtSecurityScheme, Array.Empty<string>() }
+                    { jwtSecurityScheme, Array.Empty<string>() },
+                    { apiKeyScheme, Array.Empty<string>() }
                 });
 
                 setup.EnableAnnotations();
@@ -85,7 +102,8 @@ namespace Questions.WebAPI.Installers
                     hostEnvironment.IsDevelopment());
             });
 
-            serviceCollection.AddTransient<SwaggerAuthenticationMiddleware>();
+            serviceCollection.AddScoped<SwaggerAuthenticationMiddleware>();
+            serviceCollection.AddSingleton(provider => new UseAPIKeyConfiguration(provider.GetRequiredService<IConfiguration>()));
             serviceCollection.AddSingleton(provider => new SwaggerAuthenticationConfiguration(provider.GetRequiredService<IConfiguration>()));
 
         }
