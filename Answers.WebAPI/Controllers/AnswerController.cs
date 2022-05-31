@@ -28,17 +28,17 @@ namespace Answers.WebAPI.Controllers
             _Sender = sender;
         }
 
-        [SwaggerOperation(Summary = "Retorna información de todos las respuestas.")]
+        [SwaggerOperation(Summary = "Retorna información de todos las respuestas de una pregunta.")]
         [SwaggerResponse(StatusCodes.Status200OK,
-            "Se han leído y entregados correctamente el recurso.",
-            typeof(IReadOnlyList<ReadAll.DTO>))]
+            "Se ha leído y entregado correctamente el recurso.",
+            typeof(IReadOnlyList<ReadFromQuestion.DTO>))]
 
         [Produces(MediaTypeNames.Application.Json)]
 
-        [HttpGet(Name = "GetAllAnswer")]
-        public async Task<ActionResult<IReadOnlyList<ReadAll.DTO>>> Get(CancellationToken cancellationToken)
+        [HttpGet("fromQuestion/{questionId:guid}",Name = "GetAllAnswer")]
+        public async Task<ActionResult<IReadOnlyList<ReadFromQuestion.DTO>>> ReadFromAnswerAsync(Guid questionId, CancellationToken cancellationToken)
         {
-            var response = await _Sender.Send(new ReadAll.Query(), cancellationToken);
+            var response = await _Sender.Send(new ReadFromQuestion.Query(questionId), cancellationToken);
 
             return Ok(response);
         }
@@ -53,7 +53,7 @@ namespace Answers.WebAPI.Controllers
         [Produces(MediaTypeNames.Application.Json)]
 
         [HttpGet("{id:guid}", Name = "GetAnswer")]
-        public async Task<ActionResult<ReadOne.DTO>> Get(
+        public async Task<ActionResult<ReadOne.DTO>> ReadOneAsync(
             [FromRoute] Guid id, CancellationToken cancellationToken)
         {
             var response = await _Sender.Send(new ReadOne.Query(id), cancellationToken);
@@ -75,7 +75,7 @@ namespace Answers.WebAPI.Controllers
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost(Name = "CreateAnswer")]
-        public async Task<ActionResult<Create.DTO>> Post(
+        public async Task<ActionResult<Create.DTO>> CreateAsync(
             [FromBody]
             Create.Command? request, CancellationToken cancellationToken)
         {
@@ -110,7 +110,7 @@ namespace Answers.WebAPI.Controllers
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPut("{id:guid}", Name = "UpdateAnswer")]
-        public async Task<ActionResult<Update.DTO>> Put(
+        public async Task<ActionResult<Update.DTO>> UpdateAsync(
             [FromRoute]
             Guid id,
             [FromBody]
@@ -145,7 +145,7 @@ namespace Answers.WebAPI.Controllers
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpDelete("{id:guid}", Name = "DeleteAnswer")]
-        public async Task<ActionResult<object>> Delete(
+        public async Task<ActionResult<object>> DeleteAsync(
             [FromRoute]
             Guid id, CancellationToken cancellationToken)
         {

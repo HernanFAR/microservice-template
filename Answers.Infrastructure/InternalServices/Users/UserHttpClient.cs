@@ -13,6 +13,8 @@ namespace Answers.Infrastructure.InternalServices.Users
         {
             BaseAddress = new Uri(configuration.Url);
             Timeout = configuration.TimeoutSeconds;
+            DefaultRequestHeaders.Add(configuration.APIHeader, configuration.APIKey);
+
         }
     }
 }

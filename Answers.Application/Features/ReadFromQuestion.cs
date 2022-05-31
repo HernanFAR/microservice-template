@@ -11,13 +11,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Answers.Application.Features
 {
-    public class ReadAll
+    public class ReadFromQuestion
     {
-        [DisplayName("ReadAllAnswerDTO")]
-        public record DTO(Guid Id, string Name, Guid QuestionId, DateTime Created);
+        [DisplayName("ReadFromQuestionAnswerDTO")]
+        public record DTO(Guid Id, string Name, Guid QuestionId, Guid CreatedById, DateTime Created, Guid? UpdatedById, DateTime? Updated);
 
-        [DisplayName("ReadAllAnswerDTO")]
-        public record Query() : IRequest<IReadOnlyList<DTO>>;
+        [DisplayName("ReadFromQuestionAnswerDTO")]
+        public record Query(Guid QuestionId) : IRequest<IReadOnlyList<DTO>>;
 
         public class Handler : IRequestHandler<Query, IReadOnlyList<DTO>>
         {
@@ -31,7 +31,9 @@ namespace Answers.Application.Features
             public async Task<IReadOnlyList<DTO>> Handle(Query request, CancellationToken cancellationToken)
             {
                 return await _Context.Answers
-                    .Select(e => new DTO(e.Id, e.Name, e.QuestionId, e.Created))
+                    .Where(e => e.QuestionId == request.QuestionId)
+                    .Select(e => new DTO(e.Id, e.Name, e.QuestionId, 
+                        e.CreatedById, e.Created, e.UpdatedById, e.Updated))
                     .ToListAsync(cancellationToken);
             }
         }

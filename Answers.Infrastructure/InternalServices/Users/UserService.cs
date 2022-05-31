@@ -31,7 +31,7 @@ namespace Answers.Infrastructure.InternalServices.Users
             {
                 case HttpStatusCode.OK:
                 {
-                    _Logger.LogInformation("El usuario de identificador {0} existe", id);
+                    _Logger.LogDebug("El usuario de identificador {0} existe", id);
 
                     var jsonResponse = await httpResponse.Content
                         .ReadAsStringAsync(cancellationToken);

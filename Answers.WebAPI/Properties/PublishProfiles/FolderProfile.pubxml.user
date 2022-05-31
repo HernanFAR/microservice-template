@@ -5,6 +5,6 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>C:\SourceCode\microservice-with-autorization\Answers.WebAPI\bin\Release\net5.0\publish\</_PublishTargetUrl>
-    <History>True|2022-05-31T02:45:02.4153337Z;</History>
+    <History>True|2022-06-01T05:56:34.1915327Z;True|2022-06-01T01:56:01.5095950-04:00;True|2022-06-01T01:46:07.4876801-04:00;True|2022-05-30T22:45:02.4153337-04:00;</History>
   </PropertyGroup>
 </Project>

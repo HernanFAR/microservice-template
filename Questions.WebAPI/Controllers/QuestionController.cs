@@ -37,7 +37,7 @@ namespace Questions.WebAPI.Controllers
         [Produces(MediaTypeNames.Application.Json)]
 
         [HttpGet(Name = "GetAllQuestion")]
-        public async Task<ActionResult<IReadOnlyList<ReadAll.DTO>>> Get(CancellationToken cancellationToken)
+        public async Task<ActionResult<IReadOnlyList<ReadAll.DTO>>> ReadAllAsync(CancellationToken cancellationToken)
         {
             var response = await _Sender.Send(new ReadAll.Query(), cancellationToken);
 
@@ -54,7 +54,7 @@ namespace Questions.WebAPI.Controllers
         [Produces(MediaTypeNames.Application.Json)]
 
         [HttpGet("{id:guid}", Name = "GetQuestion")]
-        public async Task<ActionResult<ReadOne.DTO>> Get(
+        public async Task<ActionResult<ReadOne.DTO>> ReadOneAsync(
             [FromRoute] Guid id, CancellationToken cancellationToken)
         {
             var response = await _Sender.Send(new ReadOne.Query(id), cancellationToken);
@@ -76,7 +76,7 @@ namespace Questions.WebAPI.Controllers
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost(Name = "CreateQuestion")]
-        public async Task<ActionResult<Create.DTO>> Post(
+        public async Task<ActionResult<Create.DTO>> CreateAsync(
             [FromBody]
             Create.Command? request, CancellationToken cancellationToken)
         {
@@ -111,7 +111,7 @@ namespace Questions.WebAPI.Controllers
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPut("{id:guid}", Name = "UpdateQuestion")]
-        public async Task<ActionResult<Update.DTO>> Put(
+        public async Task<ActionResult<Update.DTO>> UpdateAsync(
             [FromRoute]
             Guid id,
             [FromBody]
@@ -146,7 +146,7 @@ namespace Questions.WebAPI.Controllers
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpDelete("{id:guid}", Name = "DeleteQuestion")]
-        public async Task<ActionResult<object>> Delete(
+        public async Task<ActionResult<object>> DeleteAsync(
             [FromRoute]
             Guid id, CancellationToken cancellationToken)
         {

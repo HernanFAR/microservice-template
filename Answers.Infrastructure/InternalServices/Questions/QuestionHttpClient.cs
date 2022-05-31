@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -13,6 +14,8 @@ namespace Answers.Infrastructure.InternalServices.Questions
         {
             BaseAddress = new Uri(configuration.Url);
             Timeout = configuration.TimeoutSeconds;
+            DefaultRequestHeaders.Add(configuration.APIHeader, configuration.APIKey);
+
         }
     }
 }

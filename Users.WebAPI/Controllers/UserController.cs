@@ -39,7 +39,7 @@ namespace Users.WebAPI.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
 
         [HttpPost("Register", Name = "RegisterUser")]
-        public async Task<ActionResult<CreateUser.DTO>> Register(
+        public async Task<ActionResult<CreateUser.DTO>> RegisterAsync(
             [FromBody]
             CreateUser.Command? request, CancellationToken cancellationToken)
         {
@@ -69,7 +69,7 @@ namespace Users.WebAPI.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
 
         [HttpPost("Login", Name = "LoginUser")]
-        public async Task<ActionResult<Login.DTO>> Login(
+        public async Task<ActionResult<Login.DTO>> LoginAsync(
             [FromBody]
             Login.Command? request, CancellationToken cancellationToken)
         {
@@ -91,7 +91,7 @@ namespace Users.WebAPI.Controllers
         [Produces(MediaTypeNames.Application.Json)]
 
         [HttpGet("{userId:guid}", Name = "ReadUser")]
-        public async Task<ActionResult<Read.DTO>> Read(
+        public async Task<ActionResult<Read.DTO>> ReadAsync(
             [FromRoute] Guid userId, CancellationToken cancellationToken)
         {
             var response = await _Sender.Send(new Read.Query(userId), cancellationToken);

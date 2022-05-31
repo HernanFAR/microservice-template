@@ -19,17 +19,26 @@ namespace Answers.Infrastructure.InternalServices.Users
             }
 
             Url = section[nameof(Url)];
+            APIHeader = section[nameof(APIHeader)];
+            APIKey = section[nameof(APIKey)];
 
         }
 
-        public UserServiceConfiguration(TimeSpan timeoutSeconds, string url)
+        public UserServiceConfiguration(TimeSpan timeoutSeconds, string url, string apiKey, string apiHeader)
         {
             TimeoutSeconds = timeoutSeconds;
             Url = url;
+            APIKey = apiKey;
+            APIHeader = apiHeader;
         }
+
+        public TimeSpan TimeoutSeconds { get; }
 
         public string Url { get; }
 
-        public TimeSpan TimeoutSeconds { get; }
+        public string APIHeader { get; }
+
+        public string APIKey { get; }
+
     }
 }
