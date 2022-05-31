@@ -5,5 +5,6 @@
   </PropertyGroup>
   <PropertyGroup>
     <ActiveDebugProfile>Macal.OrdenGarantia.WebAPI</ActiveDebugProfile>
+    <NameOfLastUsedPublishProfile>C:\SourceCode\microservice-with-autorization\Questions.WebAPI\Properties\PublishProfiles\FolderProfile.pubxml</NameOfLastUsedPublishProfile>
   </PropertyGroup>
 </Project>

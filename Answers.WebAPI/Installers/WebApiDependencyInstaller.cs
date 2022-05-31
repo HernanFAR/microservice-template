@@ -23,7 +23,6 @@ namespace Answers.WebAPI.Installers
         public void InstallDependencies(IServiceCollection serviceCollection, IConfiguration configuration)
         {
             serviceCollection.AddControllers();
-            serviceCollection.AddFluentValidationRulesToSwagger();
 
             serviceCollection.AddSwaggerGen(setup =>
             {
