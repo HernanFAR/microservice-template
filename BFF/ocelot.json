@@ -11,6 +11,21 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
+          "Port": 7100
+        }
+      ],
+      "DownstreamPathTemplate": "/api/answer/{answerId}",
+      "UpstreamPathTemplate": "/bff/question/{id}/answers/{answerId}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "UpstreamHeaderTransform": {
+        "ApiKey": "C5FDB1A11595431BA677C98369C324D8"
+      }
+    },
+    {
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
           "Port": 6100
         }
       ],
@@ -68,6 +83,22 @@
         }
       ],
       "UpstreamPathTemplate": "/bff/question/{id}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "UpstreamHeaderTransform": {
+        "ApiKey": "C5FDB1A11595431BA677C98369C324D8"
+      }
+    },
+    // UserContext
+    {
+      "DownstreamPathTemplate": "/api/profile",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5100
+        }
+      ],
+      "UpstreamPathTemplate": "/bff/profile",
       "UpstreamHttpMethod": [ "GET" ],
       "UpstreamHeaderTransform": {
         "ApiKey": "C5FDB1A11595431BA677C98369C324D8"
