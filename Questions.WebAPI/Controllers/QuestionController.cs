@@ -59,7 +59,7 @@ namespace Questions.WebAPI.Controllers
         {
             var response = await _Sender.Send(new ReadOne.Query(id), cancellationToken);
 
-            if (response is null) NotFound();
+            if (response is null) return NotFound();
 
             return Ok(response);
         }

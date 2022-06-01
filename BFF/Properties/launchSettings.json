@@ -1,0 +1,43 @@
+﻿{
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:8000",
+      "sslPort": 8001
+    }
+  },
+  "profiles": {
+    "Run Dev": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:8001;http://localhost:8000",
+      "dotnetRunMessages": "true"
+    },
+    "Run QA": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Staging"
+      },
+      "applicationUrl": "https://localhost:8001;http://localhost:8000",
+      "dotnetRunMessages": "true"
+    },
+    "Run Prod": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Production"
+      },
+      "applicationUrl": "https://localhost:8001;http://localhost:8000",
+      "dotnetRunMessages": "true"
+    }
+  }
+}

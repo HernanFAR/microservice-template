@@ -1,0 +1,78 @@
+{
+  "$schema": "http://json.schemastore.org/ocelot.json",
+  "GlobalConfiguration": {
+    "BaseUrl": "https://localhost:8001"
+  },
+  // Nota: Las rutas se tienen que ordenar de la más especifica, a la menos especifica
+  "Routes": [
+    // AnswerContext
+    {
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 6100
+        }
+      ],
+      "DownstreamPathTemplate": "/api/question/{id}",
+      "UpstreamPathTemplate": "/bff/question/{id}/onlyAnswers",
+      "UpstreamHttpMethod": [ "GET" ],
+      "UpstreamHeaderTransform": {
+        "ApiKey": "C5FDB1A11595431BA677C98369C324D8"
+      },
+      "DelegatingHandlers": [
+        "GetAnswersOfQuestionHandler"
+      ]
+    },
+    {
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 6100
+        }
+      ],
+      "DownstreamPathTemplate": "/api/question/{id}",
+      "UpstreamPathTemplate": "/bff/question/{id}/answers",
+      "UpstreamHttpMethod": [ "GET" ],
+      "UpstreamHeaderTransform": {
+        "ApiKey": "C5FDB1A11595431BA677C98369C324D8"
+      },
+      "DelegatingHandlers": [
+        "GetQuestionWithAnswersHandler"
+      ]
+    },
+    // QuestionContext
+    {
+      "DownstreamPathTemplate": "/api/question",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 6100
+        }
+      ],
+      "UpstreamPathTemplate": "/bff/question",
+      "UpstreamHttpMethod": [ "GET" ],
+      "UpstreamHeaderTransform": {
+        "ApiKey": "C5FDB1A11595431BA677C98369C324D8"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/question/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 6100
+        }
+      ],
+      "UpstreamPathTemplate": "/bff/question/{id}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "UpstreamHeaderTransform": {
+        "ApiKey": "C5FDB1A11595431BA677C98369C324D8"
+      }
+    }
+
+  ]
+}
